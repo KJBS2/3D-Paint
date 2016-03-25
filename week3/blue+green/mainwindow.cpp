@@ -51,19 +51,19 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) //
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
-
     case WM_SIZE:
         SendMessage(hToolBar,TB_AUTOSIZE,0,0); // 툴바 사이즈 조절
         return 0;
-
     }
     return (DefWindowProc(hWnd,iMessage,wParam,lParam));
 }
 MainWindow::MainWindow(){}
+
 ChildWindow* MainWindow::get_child_window()
 {
     return child;
 }
+
 MainWindow::MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu)
 {
     hinst=hInstance;
@@ -92,9 +92,6 @@ void MainWindow::set_child_window(OPENFILENAME _OFN){
     this->child=new ChildWindow(_OFN);
 }
 
-HINSTANCE MainWindow::get_inst(){
-    return hinst;
-}
 HWND MainWindow::get_handle(){
     return hwnd;
 }

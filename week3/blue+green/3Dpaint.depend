@@ -40,3 +40,44 @@
 	<richedit.h>
 	"resource.h"
 
+1458889749 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\childwindow.cpp
+	"childwindow.h"
+	"header.h"
+	<windows.h>
+	<stdio.h>
+
+1458654268 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\childwindow.h
+	<windows.h>
+
+1458654268 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\header.h
+	<stdio.h>
+	<windows.h>
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+
+1458654268 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\resource\resource.h
+
+1458889797 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mainwindow.h
+	"childwindow.h"
+
+1458654268 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\main.cpp
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+	"header.h"
+
+1458889000 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mainwindow.cpp
+	<windows.h>
+	<commctrl.h>
+	"header.h"
+	<process.h>
+	"mainwindow.h"
+	"childwindow.h"
+
+1458654268 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\resource\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
