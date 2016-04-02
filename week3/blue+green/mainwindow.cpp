@@ -1,7 +1,6 @@
 #include<windows.h>
 #include<commctrl.h>
 #include "header.h"
-#include<process.h>
 #include "mainwindow.h"
 #include "childwindow.h"
 
@@ -78,7 +77,6 @@ MainWindow::MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu)
     win.lpszClassName=lpszClassName;
     win.style=CS_HREDRAW|CS_VREDRAW;
     RegisterClass(&win);
-
 }
 void MainWindow::show_window(int x,int y,int h,int w)
 {

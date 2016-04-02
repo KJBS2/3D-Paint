@@ -5,7 +5,6 @@
 
 class MainWindow
 {
-
 public:
     MainWindow(); // 기본 생성자.
     MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu); // 프로세스의 핸들, 등록할 윈도우의 클래스이름, 메뉴의 핸들 전달하는 생성자.

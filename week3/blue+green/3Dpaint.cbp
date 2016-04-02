@@ -33,14 +33,11 @@
 			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
-			<Add option="-pthread" />
 			<Add library="gdi32" />
 			<Add library="user32" />
 			<Add library="kernel32" />
 			<Add library="comctl32" />
 			<Add library="comdlg32" />
-			<Add library="glut32" />
-			<Add library="glut" />
 			<Add library="opengl32" />
 		</Linker>
 		<Unit filename="childwindow.cpp" />
@@ -49,6 +46,10 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="mainwindow.cpp" />
 		<Unit filename="mainwindow.h" />
+		<Unit filename="mesh.cpp" />
+		<Unit filename="mesh.h" />
+		<Unit filename="parser.cpp" />
+		<Unit filename="parser.h" />
 		<Unit filename="resource/resource.h" />
 		<Unit filename="resource/resource.rc">
 			<Option compilerVar="WINDRES" />

@@ -2,25 +2,43 @@
 #include "header.h"
 #include<windows.h>
 #include<stdio.h>
+#include "mesh.h"
+#include "parser.h"
 
 using namespace std;
 ChildWindow::ChildWindow(OPENFILENAME _OFN)
 {
     OFN=_OFN;
+
+    parser.setMesh(&mesh);
+    parser.setPath(OFN.lpstrFile);
+    parser.parse();
+
     set_window();
     //파싱해서 정보들을 저장하는 함수 호출 해야되는 부분
 }
+
+
 LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
-    PAINTSTRUCT ps;
+    static PAINTSTRUCT ps;
+
     switch(iMessage)
     {
+    case WM_CREATE:
+        window_main.get_child_window()->get_mesh()->display();
+        BeginPaint(hWnd,&ps);
+        EndPaint(hWnd,&ps);
     }
     return (DefWindowProc(hWnd,iMessage,wParam,lParam));
 }
 OPENFILENAME* ChildWindow::get_openfilename()
 {
     return &OFN;
+}
+Mesh* ChildWindow::get_mesh()
+{
+    return &mesh;
 }
 void ChildWindow::set_window()
 {
