@@ -1,11 +1,26 @@
-#ifndef MESH_H_INCLUDED
-#define MESH_H_INCLUDED
-
-#include<math.h>
+#include<stdio.h>
 #include<windows.h>
-#include <GL/gl.h>
-#include <vector>
+#include<math.h>
+#include<vector>
+
+#include "resource/resource.h"
+#include "mainwindow.h"
+
+#ifndef _header_h_
+#define _header_h_
 using namespace std;
+
+extern MainWindow window_main; // window_main을 다른 cpp에서도 쓸수있도록
+extern HINSTANCE g_hInst;
+
+unsigned WINAPI Process(void *arg);
+
+const int WindowWidth=600;
+const int WindowHeight=600;
+
+const char *dialogTitle="Load";
+const char *filterPatterns[]={"*.obj"};
+const char *filterDescription="Object files";
 
 struct Vector3
 {
@@ -52,29 +67,9 @@ struct Face
     vector<Vector3> normal;
 };
 
-
-
 inline void glVertex3fv(Vector3 &v)
 {
     glVertex3f(v.x,v.y,v.z);
 }
 
-class Mesh
-{
-public:
-    void display();
-
-public:
-    vector<Vector3> aVertex,aNormal;
-    vector<Face> aFace;
-    GLfloat translationX,translationY,translationZ,translationStep=0.05;
-    GLfloat twist,elevation,azimuth,angleStep=2.0;
-    GLfloat scale,size,scaleStep;
-    GLfloat projectionMatrix[16];
-};
-
-
-
-
-
-#endif // MESH_H_INCLUDED
+#endif

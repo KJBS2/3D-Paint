@@ -1,5 +1,5 @@
 #include "parser.h"
-
+#include "mesh.h"
 void
 Parser::setMesh(Mesh *mesh)
 {
@@ -15,90 +15,65 @@ Parser::setPath(char *path)
 void
 Parser::parse()
 {
-    FILE *file = fopen(path, "r");
-
-    if(file == NULL)
-        {
-        /* Unable to open file. */
-        //exit(0)
-        return;
-    }
-
-    while(!feof(file))
+    int i;
+    FILE*fp=fopen(path,"r");
+    if(fp==NULL)return;
+//    initialize();
+    mesh->aVertex.clear();
+    mesh->aFace.clear();
+    mesh->size=0;
+    while(!feof(fp))
     {
-        char line[MAX_LINE_LEN];
-        char dataType[MAX_LINE_LEN];
-
-        if(!fgets(line, MAX_LINE_LEN, file)) break;
-        sscanf(line, "%s", dataType);
-
-        if(strcmp(dataType, "v") == 0)
+        char line[1024];
+        fgets(line,1024,fp);
+        if(!strncmp(line,"v ",2))
         {
-            VECTOR3 tmp;
-            sscanf(line, "%*s %f %f %f", &tmp.x, &tmp.y, &tmp.z);
-            mesh->v.push_back(tmp);
-
+            Vector3 v;
+            sscanf(line+2,"%f%f%f",&v.x,&v.y,&v.z);
+            mesh->aVertex.push_back(v);
+            if(v.getNorm()>mesh->size)mesh->size=v.getNorm();
         }
-        else if(strcmp(dataType, "vt") == 0)
+        else if(!strncmp(line,"vn ",3))
         {
-            VECTOR2 tmp;
-            sscanf(line, "%*s %f %f", &tmp.x, &tmp.y);
-            mesh->vt.push_back(tmp);
-
+            Vector3 v;
+            sscanf(line+2,"%f%f%f",&v.x,&v.y,&v.z);
+            mesh->aNormal.push_back(-v);
         }
-        else if(strcmp(dataType, "vn") == 0)
+        else if(!strncmp(line,"f ",2))
         {
-            VECTOR3 tmp;
-            sscanf(line, "%*s %f %f %f", &tmp.x, &tmp.y, &tmp.z);
-            mesh->vn.push_back(tmp);
-
-        }
-        else if(strcmp(dataType, "f") == 0)
-        {
-            POLYGON polygon;
-            char *token = strtok(line, " ");
-            token = strtok(NULL, " ");
-            while(token)
+            int t;
+            Vector3 n;
+            mesh->aFace.push_back(Face());
+            char *pt=line+2;
+            while(1)
             {
-                int v, vt, vn;
-                switch(findTokenFormat(token))
+                sscanf(pt,"%d",&t);
+                mesh->aFace.back().vertexNo.push_back(t);
+                if(strstr(pt,"/"))
                 {
-                case 0: //f v v v v v ...
-                    sscanf(token, "%d", &v);
-                    polygon.vIndex.push_back(v);
-                    break;
-                case 1: //f v/vt v/vt v/vt ...
-                    sscanf(token, "%d/%d", &v, &vt);
-                    polygon.vIndex.push_back(v);
-                    polygon.vtIndex.push_back(vt);
-                    break;
-                case 2: //f v/vt/vn v/vt/vn ...
-                    sscanf(token, "%d/%d/%d", &v, &vt, &vn);
-                    polygon.vIndex.push_back(v);
-                    polygon.vtIndex.push_back(vt);
-                    polygon.vnIndex.push_back(vn);
-                    break;
-                case 3:  //f v//vn v//vn ...
-                    sscanf(token, "%d//%d", &v, &vn);
-                    polygon.vIndex.push_back(v);
-                    polygon.vnIndex.push_back(vn);
-                    break;
-                default:
-                    /* WRONG .obj FILE FORMAT */
-                    break;
+                    pt=strstr(pt,"/")+1;
+                    if(strstr(pt,"/")&&strstr(pt,"/")<strstr(pt," "))
+                    {
+                        pt=strstr(pt,"/")+1;
+                        sscanf(pt,"%d",&t);
+                        n=mesh->aNormal[t-1];
+                    }
                 }
-                token = strtok(NULL, " ");
+                mesh->aFace.back().normal.push_back(n);
+                if(strstr(pt," "))pt=strstr(pt," ")+1;
+                else break;
+                for(i='0';i<='9';++i)
+                {
+                    char digit[2];
+                    digit[0]=i;
+                    digit[1]=0;
+                    if(strstr(pt,digit))break;
+                }
+                if(i>'9')break;
             }
-            mesh->polygon.push_back(polygon);
-        }
-        else{
-            /* other data types */
         }
     }
-
-    toTriangle();
-
-    fclose(file);
+    fclose(fp);
 }
 
 int
@@ -130,7 +105,7 @@ Parser::findTokenFormat(char *token)
 
     return ret;
 }
-
+/*
 void
 Parser::toTriangle(void)
 {
@@ -152,7 +127,7 @@ Parser::toTriangle(void)
                 t.vt[2] = mesh->vt[polygon.vtIndex[i+1]-1];
             }else
             {
-                /* In later. this place should be filled... */
+                /* In later. this place should be filled... *-/
             }
 
             if(!polygon.vnIndex.empty())
@@ -162,7 +137,7 @@ Parser::toTriangle(void)
                 t.vn[2] = mesh->vn[polygon.vnIndex[i+1]-1];
             }else
             {
-                /* In later. this place should be filled... */
+                /* In later. this place should be filled... *-/
             }
 
         }
@@ -170,3 +145,4 @@ Parser::toTriangle(void)
         mesh->triangle.push_back(t);
     }
 }
+*/

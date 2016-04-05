@@ -56,6 +56,7 @@ ChildWindow::ChildWindow(OPENFILENAME _OFN)
     // Set mesh
     parser.setMesh(&mesh);
     // Parse .obj file to mesh data format
+
     parser.parse();
 
     // Device Context, Render Context Initialization
@@ -77,7 +78,7 @@ void ChildWindow::set_window()
 {
     win.cbClsExtra=0;
     win.cbWndExtra=0;
-    win.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
+    win.hbrBackground=(HBRUSH)GetStockObject(BLACK_BRUSH);
     win.hCursor=LoadCursor(NULL,IDC_ARROW);
     win.hIcon=LoadIcon(NULL,IDI_APPLICATION);
     win.hInstance=g_hInst;
