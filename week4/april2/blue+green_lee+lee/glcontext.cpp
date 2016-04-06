@@ -14,7 +14,11 @@ void GLContext::init(HWND hWnd)
     pfd.nSize = sizeof(pfd);
     pfd.nVersion = 1;
     pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL
+<<<<<<< HEAD
     /* Disable double buffer  | PFD_DOUBLEBUFFER*/;
+=======
+    /* Disable double buffer  | PFD_DOUBLEBUFFER */;
+>>>>>>> origin/master
     pfd.iPixelType = PFD_TYPE_RGBA;
     pfd.cColorBits = 24;
     pfd.cDepthBits = 16;
