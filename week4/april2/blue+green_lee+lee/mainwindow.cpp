@@ -20,6 +20,7 @@ TBBUTTON ToolBtn[5]={ // 툴바 설정.
 
 LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) // 윈도우 프로시져
 {
+    int a;
     switch(iMessage)
     {
     case WM_CREATE:
@@ -61,12 +62,8 @@ ChildWindow* MainWindow::get_child_window()
 {
     return child;
 }
-<<<<<<< HEAD
 
 MainWindow::MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu)
-=======
-MainWindow::MainWindow(HINSTANCE hInstance,const LPSTR lpszClassName,const int menu)
->>>>>>> origin/master
 {
     hinst=hInstance;
     win.cbClsExtra=0;
@@ -83,7 +80,7 @@ MainWindow::MainWindow(HINSTANCE hInstance,const LPSTR lpszClassName,const int m
 }
 void MainWindow::show_window(int x,int y,int h,int w)
 {
-    hwnd=CreateWindowEx(WS_EX_RIGHT,win.lpszClassName,win.lpszClassName,WS_OVERLAPPEDWINDOW,
+    hwnd=CreateWindow(win.lpszClassName,win.lpszClassName,WS_OVERLAPPEDWINDOW,
                       x,y,h,w,
                       NULL,(HMENU)NULL,hinst,NULL);
     ShowWindow(hwnd,10);
