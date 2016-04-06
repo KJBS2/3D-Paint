@@ -62,13 +62,15 @@ inline void glVertex3fv(Vector3 &v)
 class Mesh
 {
 public:
+    Mesh();
     void display();
 
 public:
+
     vector<Vector3> aVertex,aNormal;
     vector<Face> aFace;
-    GLfloat translationX,translationY,translationZ,translationStep=0.05;
-    GLfloat twist,elevation,azimuth,angleStep=2.0;
+    GLfloat translationX,translationY,translationZ,translationStep;
+    GLfloat twist,elevation,azimuth,angleStep;
     GLfloat scale,size,scaleStep;
     GLfloat projectionMatrix[16];
 };

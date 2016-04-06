@@ -80,13 +80,8 @@ MainWindow::MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu)
 }
 void MainWindow::show_window(int x,int y,int h,int w)
 {
-<<<<<<< HEAD
-    hwnd=CreateWindow(win.lpszClassName,win.lpszClassName,WS_OVERLAPPEDWINDOW,
-=======
-    //TODO: Set the title of window to the left of the bar.
 
-    hwnd=CreateWindowEx(WS_EX_RIGHT,win.lpszClassName,win.lpszClassName,WS_OVERLAPPEDWINDOW,
->>>>>>> origin/master
+    hwnd=CreateWindow(win.lpszClassName,win.lpszClassName,WS_OVERLAPPEDWINDOW,
                       x,y,h,w,
                       NULL,(HMENU)NULL,hinst,NULL);
     ShowWindow(hwnd,10);

@@ -11,49 +11,32 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-bool flag=0;
-// child window message call back function
-LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
-{
-
-
-    // OpenGL display function in mesh object
-    if(flag)
-    {
-        Mesh *mesh = window_main.get_child_window()->getMesh();
-        mesh->display();
-    }
-=======
 bool bEnableOpenGL = false;
 
 // child window message call back function
 LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
->>>>>>> origin/master
     PAINTSTRUCT ps;
+
     switch(iMessage)
     {
     case WM_PAINT:
-
-        break;
+        if(bEnableOpenGL){
+        // Get mesh data
+            Mesh *mesh = window_main.get_child_window()->getMesh();
+        // Display mesh data
+            mesh->display();
+        }
+        return 0;
 
     // TODO: Mouse click event message receiving
     // TODO: Mouse moving event message receiving
     // TODO: Keyboard key-down event message receiving
 
-    default:
 
     // TODO: should move display() from here to appropriate places in this callback function
         // Check whether ready to draw mesh
-        if(bEnableOpenGL){
-        // Get mesh data
-        Mesh *mesh = window_main.get_child_window()->getMesh();
 
-        // Display mesh data
-        mesh->display();
-        }
-        break;
     }
     return (DefWindowProc(hWnd,iMessage,wParam,lParam));
 }
@@ -71,21 +54,15 @@ ChildWindow::ChildWindow(OPENFILENAME _OFN)
     // Set mesh
     parser.setMesh(&mesh);
     // Parse .obj file to mesh data format
-
     parser.parse();
-
     // Device Context, Render Context Initialization
     glContext.init(hwnd);
 
-<<<<<<< HEAD
-    initGL(); flag=1;
-=======
     // Initialize OpenGL settings
     initGL();
 
     // From here, you can use openGL.
     bEnableOpenGL = true;
->>>>>>> origin/master
 }
 
 
