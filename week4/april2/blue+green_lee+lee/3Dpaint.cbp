@@ -39,6 +39,7 @@
 			<Add library="comctl32" />
 			<Add library="comdlg32" />
 			<Add library="opengl32" />
+			<Add library="glu32" />
 		</Linker>
 		<Unit filename="childwindow.cpp" />
 		<Unit filename="childwindow.h" />

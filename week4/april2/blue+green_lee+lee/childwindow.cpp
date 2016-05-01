@@ -25,7 +25,7 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
         // Get mesh data
             Mesh *mesh = window_main.get_child_window()->getMesh();
         // Display mesh data
-            mesh->display();
+            mesh->DoDisplay();
         }
         return 0;
 

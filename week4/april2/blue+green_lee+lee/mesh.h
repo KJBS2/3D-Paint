@@ -23,6 +23,14 @@ struct Vector3
         r.z=-z;
         return r;
     }
+    Vector3 operator+(Vector3 v)
+    {
+        Vector3 r;
+        r.x=x+v.x;
+        r.y=y+v.y;
+        r.z=z+v.z;
+        return r;
+    }
     Vector3 operator-(Vector3 v)
     {
         Vector3 r;
@@ -59,11 +67,31 @@ inline void glVertex3fv(Vector3 &v)
     glVertex3f(v.x,v.y,v.z);
 }
 
+struct CAMERA{
+    Vector3 position, normal, yAxis, xAxis;
+    Vector3 baseNormal, baseYAxis, baseXAxis;
+    float azimuth, elevation, twist;
+    CAMERA() {
+        position = Vector3(0,0,0);
+        baseNormal = normal = Vector3(0,0,-1);
+        baseXAxis = xAxis = Vector3(1,0,0);
+        baseYAxis = yAxis = Vector3(0,1,0);
+        azimuth = elevation = twist = 0;
+    }
+};
+
 class Mesh
 {
 public:
     Mesh();
-    void display();
+    void DoDisplay();
+    void DoDisplayInit();
+    void DoDisplayMatrix();
+    void DoDisplayLightOn();
+    void DoDisplayGridline();
+    void DoDisplaySample();
+    void DoDisplayString();
+
 
 public:
 
@@ -73,6 +101,8 @@ public:
     GLfloat twist,elevation,azimuth,angleStep;
     GLfloat scale,size,scaleStep;
     GLfloat projectionMatrix[16];
+    CAMERA Camera;
+    int prvX,prvY;
 };
 
 

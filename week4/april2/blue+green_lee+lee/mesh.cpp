@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include <GL/gl.h>
+#include <GL/glu.h>
 #include <stdio.h>
 #include "header.h"
 
@@ -16,10 +17,15 @@ Mesh::Mesh()
     scaleStep=0.05;
     angleStep=2.0;
     translationStep=0.05;
+
+    Camera = CAMERA();
+
+    prvX = -1; prvY = -1;
 }
-void Mesh::display()
+void Mesh::DoDisplayInit()
 {
-    glClearColor(0.5,0.5,0.5,1);
+    glClearColor(0,0,0,1); // Background Color
+
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
@@ -35,18 +41,23 @@ void Mesh::display()
     glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
 
     glShadeModel(GL_SMOOTH);
-
+}
+void Mesh::DoDisplayMatrix()
+{
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-size,size,-size,size,-size*scale,size*scale);
-
+    glFrustum(-1, 1, -1, 1, 1, 50);
+    Camera.position+Camera.normal;
+    Vector3 temp= Camera.position +Camera.normal;
+    gluLookAt(Camera.position.x,Camera.position.y,Camera.position.z, temp.x,temp.y,temp.z, Camera.yAxis.x,Camera.yAxis.y,Camera.yAxis.z);
     glScalef(scale,scale,scale);
     glTranslatef(translationX,translationY,translationZ);
     glRotatef(twist,0.0,0.0,1.0);
     glRotatef(elevation,1.0,0.0,0.0);
     glRotatef(azimuth,0.0,1.0,0.0);
-    glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
-
+}
+void Mesh::DoDisplayLightOn()
+{
     GLfloat lightAmbient[]={0.5,0.5,0.5,1};
     GLfloat lightDiffuse[]={0.7,0.7,0.7,1};
     GLfloat lightSpecular[]={1,1,1,1};
@@ -65,7 +76,10 @@ void Mesh::display()
     glMaterialfv(GL_FRONT,GL_AMBIENT_AND_DIFFUSE,materialAmbient);
     glMaterialfv(GL_FRONT,GL_SPECULAR,materialSpecular);
     glMaterialf(GL_FRONT,GL_SHININESS,128);
-
+}
+void Mesh::DoDisplaySample()
+{
+    glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
     for(vector<Face>::iterator it=aFace.begin();it!=aFace.end();++it)
     {
         glBegin(GL_POLYGON);
@@ -79,15 +93,22 @@ void Mesh::display()
                 Vector3 n(ca.y*ba.z-ba.y*ca.z,ca.z*ba.x-ba.z*ca.x,ca.x*ba.y-ba.x*ca.y);
                 it->normal[i]=n;
             }
-            Vector3 n2(-it->normal[i].x*projectionMatrix[0]-it->normal[i].y*projectionMatrix[4]-it->normal[i].z*projectionMatrix[8],-it->normal[i].x*projectionMatrix[1]-it->normal[i].y*projectionMatrix[5]-it->normal[i].z*projectionMatrix[9],-it->normal[i].x*projectionMatrix[2]-it->normal[i].y*projectionMatrix[6]-it->normal[i].z*projectionMatrix[10]);
+            Vector3 n2(-it->normal[i].x*projectionMatrix[0]-it->normal[i].y*projectionMatrix[4]-it->normal[i].z*projectionMatrix[8]
+                       ,-it->normal[i].x*projectionMatrix[1]-it->normal[i].y*projectionMatrix[5]-it->normal[i].z*projectionMatrix[9]
+                       ,-it->normal[i].x*projectionMatrix[2]-it->normal[i].y*projectionMatrix[6]-it->normal[i].z*projectionMatrix[10]);
             n2=n2/n2.getNorm();
             glNormal3f(n2.x,n2.y,n2.z);
             glVertex3fv(aVertex[it->vertexNo[i]-1]);
         }
         glEnd();
     }
+}
 
+void Mesh::DoDisplay()
+{
+    DoDisplayInit();
+    DoDisplayMatrix();
+    DoDisplayLightOn();
+    DoDisplaySample();
     glFlush();
-    // swap buffer
-    SwapBuffers(/*HWND of child window*/window_main.get_child_window()->getGLContext()->getHDC());
 }
