@@ -53,6 +53,10 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="mainwindow.cpp" />
 		<Unit filename="mainwindow.h" />
+		<Unit filename="mesh.cpp" />
+		<Unit filename="mesh.h" />
+		<Unit filename="parser.cpp" />
+		<Unit filename="parser.h" />
 		<Unit filename="resource/resource.h" />
 		<Unit filename="resource/resource.rc">
 			<Option compilerVar="WINDRES" />

@@ -1,0 +1,33 @@
+#include<windows.h>
+#include<GL/gl.h>
+#include"header.h"
+#ifndef _mesh_h_
+#define _mesh_h_
+//#include<vector>
+
+
+class Mesh
+{
+public:
+    void display();
+
+public:
+    std::vector<Vector3> v;
+    std::vector<VECTOR2> vt;
+    std::vector<VECTOR3> vn;
+    std::vector<TRIANGLE> triangle;
+    std::vector<POLYGON> polygon;
+
+    vector<Vector3> aVertex,aNormal;
+    vector<Face> aFace;
+    GLfloat translationX,translationY,translationZ,translationStep;//=0.05;
+    GLfloat twist,elevation,azimuth,angleStep;//=2.0;
+    GLfloat scale,size,scaleStep;
+    GLfloat projectionMatrix[16];
+};
+
+
+
+
+
+#endif // MESH_H_INCLUDED
