@@ -72,7 +72,7 @@ struct CAMERA{
     Vector3 baseNormal, baseYAxis, baseXAxis;
     float azimuth, elevation, twist;
     CAMERA() {
-        position = Vector3(0,0,0);
+        position = Vector3(0,0,3);
         baseNormal = normal = Vector3(0,0,-1);
         baseXAxis = xAxis = Vector3(1,0,0);
         baseYAxis = yAxis = Vector3(0,1,0);
