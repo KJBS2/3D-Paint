@@ -20,19 +20,29 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
 
     switch(iMessage)
     {
-    case WM_PAINT:
-        if(bEnableOpenGL){
-        // Get mesh data
-            Mesh *mesh = window_main.get_child_window()->getMesh();
-        // Display mesh data
-            mesh->DoDisplay();
-        }
-        return 0;
+        case WM_PAINT:
+            if(bEnableOpenGL){
+            // Get mesh data
+                Mesh *mesh = window_main.get_child_window()->getMesh();
+            // Display mesh data
+                mesh->DoDisplay();
+            }
+            return 0;
+        case WM_MOUSEMOVE:
+            switch(window_main.get_button_stat())
+            {
+            case BUTTON_ROTATE_CAMERA:
+                printf("!");
+                break;
+            case BUTTON_MOVE_CAMERA:
+                printf("@");
+                break;
+            }
+            return 0;
 
     // TODO: Mouse click event message receiving
     // TODO: Mouse moving event message receiving
     // TODO: Keyboard key-down event message receiving
-
 
     // TODO: should move display() from here to appropriate places in this callback function
         // Check whether ready to draw mesh
@@ -66,10 +76,7 @@ ChildWindow::ChildWindow(OPENFILENAME _OFN)
 }
 
 
-OPENFILENAME* ChildWindow::get_openfilename()
-{
-    return &OFN;
-}
+
 void ChildWindow::set_window()
 {
     win.cbClsExtra=0;
@@ -88,28 +95,23 @@ void ChildWindow::set_window()
     hwnd = CreateWindowEx(0,"Child","Child",WS_CHILD|WS_VISIBLE|WS_SYSMENU|WS_CLIPCHILDREN ,2,30,980,650,window_main.get_handle(),(HMENU)NULL,g_hInst,NULL);
 }
 
-Mesh* ChildWindow::getMesh()
-{
+OPENFILENAME* ChildWindow::get_openfilename(){
+    return &OFN;
+}
+Mesh* ChildWindow::getMesh(){
     return &mesh;
 }
-
-Parser* ChildWindow::getParser()
-{
+Parser* ChildWindow::getParser(){
     return &parser;
 }
-
-GLContext* ChildWindow::getGLContext()
-{
+GLContext* ChildWindow::getGLContext(){
     return &glContext;
 }
-
-HWND ChildWindow::getHWND()
-{
+HWND ChildWindow::getHWND(){
     return hwnd;
 }
 
-void
-ChildWindow::initGL()
-{
+void ChildWindow::initGL(){
     glClearColor(1.0, 1.0, 1.0, 1.0);
 }
+
