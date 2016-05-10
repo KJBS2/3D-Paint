@@ -13,6 +13,7 @@ public:
     void set_child_window(OPENFILENAME OFN);  // OPENFILENAME을 갖는 childWindow인스턴스를 만들고 포인터가 그 인스턴스를 가르키도록 해준다.
     void set_button_stat(int);
     int get_button_stat();
+    int is_pressed[300];
     HWND get_handle(); // 윈도우의 핸들을 반환
     ChildWindow* get_child_window(); // child포인터를 반환
 

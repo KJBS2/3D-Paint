@@ -12,14 +12,22 @@
 using namespace std;
 
 bool bEnableOpenGL = false;
-
+bool is_button_down = false;
 // child window message call back function
 LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
+
     PAINTSTRUCT ps;
 
+    if(bEnableOpenGL)window_main.get_child_window()->getMesh()->CheckKeyboard();
     switch(iMessage)
     {
+        case WM_LBUTTONDOWN:
+            is_button_down=true;
+            return 0;
+        case WM_LBUTTONUP:
+            is_button_down=false;
+            return 0;
         case WM_PAINT:
             if(bEnableOpenGL){
             // Get mesh data
@@ -29,25 +37,23 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
             }
             return 0;
         case WM_MOUSEMOVE:
-            switch(window_main.get_button_stat())
+            if(is_button_down)
             {
-            case BUTTON_ROTATE_CAMERA:
-                printf("!");
-                break;
-            case BUTTON_MOVE_CAMERA:
-                printf("@");
-                break;
+                switch(window_main.get_button_stat())
+                {
+                case BUTTON_ROTATE_CAMERA:
+                    printf("!");
+                    break;
+                case BUTTON_MOVE_CAMERA:
+                    printf("@");
+                    break;
+                }
             }
             return 0;
 
-    // TODO: Mouse click event message receiving
-    // TODO: Mouse moving event message receiving
-    // TODO: Keyboard key-down event message receiving
-
-    // TODO: should move display() from here to appropriate places in this callback function
-        // Check whether ready to draw mesh
 
     }
+
     return (DefWindowProc(hWnd,iMessage,wParam,lParam));
 }
 
