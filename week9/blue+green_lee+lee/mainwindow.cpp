@@ -31,10 +31,16 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) //
         hToolBar=CreateToolbarEx(hWnd, WS_CHILD | WS_VISIBLE, 103, 4, g_hInst,IDB_BITMAP1, ToolBtn, 5, 16,16,16,16,sizeof(TBBUTTON));
         // 툴바를 생성한다.
         return 0;
-
+    case WM_KEYDOWN:
+        window_main.is_pressed[wParam]=1;
+        return 0;
+    case WM_KEYUP:
+        window_main.is_pressed[wParam]=0;
+        return 0;
     case WM_COMMAND:
         switch(LOWORD(wParam))
         {
+
             case BUTTON_LOAD: // 제일 왼쪽 툴버튼의 핸들.
             case IDR_LOAD: // or FILE->LOAD가 눌러졌을때
                 memset(&OFN,0,sizeof(OPENFILENAME));
@@ -74,6 +80,7 @@ MainWindow::MainWindow(){}
 
 MainWindow::MainWindow(HINSTANCE hInstance,LPSTR lpszClassName,const int menu)
 {
+    memset(is_pressed,0,sizeof(is_pressed));
     child=NULL;
     hinst=hInstance;
     win.cbClsExtra=0;

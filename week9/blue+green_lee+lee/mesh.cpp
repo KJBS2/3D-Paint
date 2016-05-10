@@ -104,6 +104,8 @@ void Mesh::DoDisplaySample()
     }
 }
 
+
+
 void Mesh::DoDisplay()
 {
     DoDisplayInit();
@@ -111,4 +113,16 @@ void Mesh::DoDisplay()
     DoDisplayLightOn();
     DoDisplaySample();
     glFlush();
+}
+void Mesh::CheckKeyboard()
+{
+    if(window_main.is_pressed['a'] || window_main.is_pressed['A'])
+        Camera.position = Camera.position - Camera.xAxis *(float)0.05,this->DoDisplay();
+    if(window_main.is_pressed['d'] || window_main.is_pressed['D'])
+        Camera.position = Camera.position + Camera.xAxis *(float)0.05,this->DoDisplay();
+    if(window_main.is_pressed['s'] || window_main.is_pressed['S'])
+        Camera.position = Camera.position - Camera.normal*(float)0.05,this->DoDisplay();
+    if(window_main.is_pressed['w'] || window_main.is_pressed['W'])
+        Camera.position = Camera.position + Camera.normal*(float)0.05,this->DoDisplay();
+
 }

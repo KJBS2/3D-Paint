@@ -1,13 +1,11 @@
 #include "parser.h"
 #include "mesh.h"
-void
-Parser::setMesh(Mesh *mesh)
+void Parser::setMesh(Mesh *mesh)
 {
     this->mesh = mesh;
 }
 
-void
-Parser::setPath(char *path)
+void Parser::setPath(char *path)
 {
     this->path = path;
 }

@@ -15,6 +15,13 @@ struct Vector3
         this->y=y;
         this->z=z;
     }
+    Vector3 operator*(float k) {
+        Vector3 r;
+        r.x = x * k;
+        r.y = y * k;
+        r.z = z * k;
+        return r;
+    }
     Vector3 operator-()
     {
         Vector3 r;
@@ -91,6 +98,7 @@ public:
     void DoDisplayGridline();
     void DoDisplaySample();
     void DoDisplayString();
+    void CheckKeyboard();
 
 
 public:
