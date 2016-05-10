@@ -1,5 +1,5 @@
 #include"main.h"
-
+#define M_PI 3.1415
 GLfloat translationX,translationY,translationZ,translationStep=0.05;
 GLfloat twist,elevation,azimuth,angleStep=2.0;
 GLfloat scale,size,scaleStep;
@@ -310,9 +310,9 @@ void DoMousePassiveMove(int x, int y)
     }
     else
     {
-        Camera.azimuth  =Camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(Camera.twist*M_PI/180)
+        Camera.azimuth  = Camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(Camera.twist*M_PI/180)
         -1.0*(y-prvY)/WindowHeight*M_PI*sin(Camera.twist*M_PI/180);
-        Camera.elevation=Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
+        Camera.elevation = Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
         +1.0*(y-prvY)/WindowHeight*M_PI*cos(Camera.twist*M_PI/180);
 
         Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);

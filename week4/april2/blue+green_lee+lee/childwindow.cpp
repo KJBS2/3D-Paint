@@ -17,28 +17,26 @@ bool bEnableOpenGL = false;
 LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
     PAINTSTRUCT ps;
+
     switch(iMessage)
     {
     case WM_PAINT:
-
-        break;
+        if(bEnableOpenGL){
+        // Get mesh data
+            Mesh *mesh = window_main.get_child_window()->getMesh();
+        // Display mesh data
+            mesh->DoDisplay();
+        }
+        return 0;
 
     // TODO: Mouse click event message receiving
     // TODO: Mouse moving event message receiving
     // TODO: Keyboard key-down event message receiving
 
-    default:
 
     // TODO: should move display() from here to appropriate places in this callback function
         // Check whether ready to draw mesh
-        if(bEnableOpenGL){
-        // Get mesh data
-        Mesh *mesh = window_main.get_child_window()->getMesh();
 
-        // Display mesh data
-        mesh->display();
-        }
-        break;
     }
     return (DefWindowProc(hWnd,iMessage,wParam,lParam));
 }
@@ -57,7 +55,6 @@ ChildWindow::ChildWindow(OPENFILENAME _OFN)
     parser.setMesh(&mesh);
     // Parse .obj file to mesh data format
     parser.parse();
-
     // Device Context, Render Context Initialization
     glContext.init(hwnd);
 
@@ -77,7 +74,7 @@ void ChildWindow::set_window()
 {
     win.cbClsExtra=0;
     win.cbWndExtra=0;
-    win.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
+    win.hbrBackground=(HBRUSH)GetStockObject(BLACK_BRUSH);
     win.hCursor=LoadCursor(NULL,IDC_ARROW);
     win.hIcon=LoadIcon(NULL,IDI_APPLICATION);
     win.hInstance=g_hInst;
@@ -86,6 +83,8 @@ void ChildWindow::set_window()
     win.lpszClassName="Child";
     win.style=CS_HREDRAW|CS_VREDRAW;
     RegisterClass(&win);
+
+
     hwnd = CreateWindowEx(0,"Child","Child",WS_CHILD|WS_VISIBLE|WS_SYSMENU|WS_CLIPCHILDREN ,2,30,980,650,window_main.get_handle(),(HMENU)NULL,g_hInst,NULL);
 }
 

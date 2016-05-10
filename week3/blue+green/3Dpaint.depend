@@ -1,0 +1,105 @@
+# depslib dependency file v1.0
+1458565647 source:c:\programming\kist\3dpaint\childwindow.cpp
+	"childwindow.h"
+	"header.h"
+	<windows.h>
+	<stdio.h>
+
+1458475915 c:\programming\kist\3dpaint\childwindow.h
+	<windows.h>
+
+1458474073 source:c:\programming\kist\3dpaint\main.cpp
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+	"header.h"
+
+1458470769 c:\programming\kist\3dpaint\header.h
+	<stdio.h>
+	<windows.h>
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+
+1458316095 c:\programming\kist\3dpaint\resource\resource.h
+
+1458470727 c:\programming\kist\3dpaint\mainwindow.h
+	"childwindow.h"
+
+1458563207 source:c:\programming\kist\3dpaint\mainwindow.cpp
+	<windows.h>
+	<commctrl.h>
+	"header.h"
+	<process.h>
+	"mainwindow.h"
+	"childwindow.h"
+
+1458316095 source:c:\programming\kist\3dpaint\resource\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1459173901 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\childwindow.cpp
+	"childwindow.h"
+	"header.h"
+	<windows.h>
+	<stdio.h>
+	"mesh.h"
+	"parser.h"
+
+1458977487 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\childwindow.h
+	<windows.h>
+	"parser.h"
+	"mesh.h"
+
+1458974266 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\header.h
+	<stdio.h>
+	<windows.h>
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+
+1458654268 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\resource\resource.h
+
+1458974262 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mainwindow.h
+	"childwindow.h"
+
+1458654268 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\main.cpp
+	"resource/resource.h"
+	"mainwindow.h"
+	"childwindow.h"
+	"header.h"
+
+1458972852 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mainwindow.cpp
+	<windows.h>
+	<commctrl.h>
+	"header.h"
+	"mainwindow.h"
+	"childwindow.h"
+
+1458654268 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\resource\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1458976338 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\parser.h
+	"mesh.h"
+	<stdio.h>
+	<stdlib.h>
+	<vector>
+	<string.h>
+
+1458976970 c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mesh.h
+	<GL/gl.h>
+	<vector>
+
+1458976338 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\parser.cpp
+	"parser.h"
+
+1458978388 source:c:\users\wyldecat\desktop\3d-paint\week3\blue+green\mesh.cpp
+	"mesh.h"
+	<GL/gl.h>
+	<stdio.h>
+
