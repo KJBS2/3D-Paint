@@ -13,6 +13,8 @@ using namespace std;
 
 bool bEnableOpenGL = false;
 bool is_button_down = false;
+POINT temp;
+int *pX,*pY;
 // child window message call back function
 LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
@@ -27,6 +29,9 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
             return 0;
         case WM_LBUTTONUP:
             is_button_down=false;
+            pX=&(window_main.get_child_window()->prvX);
+            pY=&(window_main.get_child_window()->prvY);
+            *pX=*pY=-1;
             return 0;
         case WM_PAINT:
             if(bEnableOpenGL){
@@ -39,10 +44,16 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
         case WM_MOUSEMOVE:
             if(is_button_down)
             {
+                pX=&(window_main.get_child_window()->prvX);
+                pY=&(window_main.get_child_window()->prvY);
                 switch(window_main.get_button_stat())
                 {
                 case BUTTON_ROTATE_CAMERA:
-                    printf("!");
+                    GetCursorPos(&temp);
+                    if(*pX==-1 && *pY==-1) *pX=temp.x,*pY=temp.y;
+                    window_main.get_child_window()->getMesh()->DoRotateCamera(temp.x,temp.y,*pX,*pY);
+                    *pX=temp.x;
+                    *pY=temp.y;
                     break;
                 case BUTTON_MOVE_CAMERA:
                     printf("@");
@@ -62,7 +73,7 @@ LRESULT CALLBACK ChildWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lPara
 ChildWindow::ChildWindow(OPENFILENAME _OFN)
 {
     OFN=_OFN;
-
+    prvX=prvY=-1;
     set_window();
 
     // Set .obj file path in parser object
