@@ -17,6 +17,7 @@ public:
     Parser* getParser();            // getter of Parser
     GLContext* getGLContext();      // getter of GLContext
     HWND getHWND();                 // getter of HWND
+    int prvX,prvY;
     void initGL();
 private:
     OPENFILENAME OFN; // childwindow가 로드해야하는 파일의 정보가 담겨있는 구조체.
