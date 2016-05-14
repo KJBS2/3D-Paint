@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "header.h"
 
+#define M_PI 3.141592
 // OpenGL display function
 Mesh::Mesh()
 {
@@ -19,8 +20,6 @@ Mesh::Mesh()
     translationStep=0.05;
 
     Camera = CAMERA();
-
-    prvX = -1; prvY = -1;
 }
 void Mesh::DoDisplayInit()
 {
@@ -103,9 +102,6 @@ void Mesh::DoDisplaySample()
         glEnd();
     }
 }
-
-
-
 void Mesh::DoDisplay()
 {
     DoDisplayInit();
@@ -113,6 +109,24 @@ void Mesh::DoDisplay()
     DoDisplayLightOn();
     DoDisplaySample();
     glFlush();
+}
+void Mesh::DoRotateCamera(int x,int y,int prvX,int prvY)
+{
+    Camera.azimuth  = Camera.azimuth  +1.0*(x-prvX)/980 *M_PI*cos(Camera.twist*M_PI/180)-1.0*(y-prvY)/650*M_PI*sin(Camera.twist*M_PI/180);
+    Camera.elevation = Camera.elevation+1.0*(x-prvX)/980 *M_PI*sin(Camera.twist*M_PI/180)+1.0*(y-prvY)/650*M_PI*cos(Camera.twist*M_PI/180);
+
+    Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);
+    Camera.xAxis  = rotateVector(Camera.baseXAxis , Camera.baseYAxis, -Camera.azimuth);
+    Camera.normal = rotateVector(Camera.normal    , Camera.xAxis    , -Camera.elevation);
+    Camera.yAxis  = rotateVector(Camera.baseYAxis , Camera.xAxis    , -Camera.elevation);
+
+    this->DoDisplay();
+}
+void Mesh::DoMoveCamera()
+{
+    /*
+        TODO
+                */
 }
 void Mesh::CheckKeyboard()
 {
