@@ -24,9 +24,9 @@ void initialize()
     scaleStep=0.05;
     buttonState = 0;
     selectState = -1;
-    
+
     Camera = CAMERA();
-    
+
     prvX = -1; prvY = -1;
 
     mode = KIST_CAMERA_MODE;
@@ -38,7 +38,7 @@ void DoLoad()
     nowIndex.start = (int)aFace.size();
     int baseVertexIndex = (int)(aVertex.size());
     int baseNormalIndex = (int)(aNormal.size());
-    
+
     int i;
     const char *ret=tinyfd_openFileDialog(dialogTitle,NULL,1,filterPatterns,filterDescription,0);
     if(ret==NULL)return;
@@ -122,23 +122,23 @@ void DoDisplayInit()
 {
     sprintf(info,"\"%s\" - x=%.1f, y=%.1f, z=%.1f, t=%.1f, s=%.1f",file,translationX,translationY,translationZ,twist,scale);
     glutSetWindowTitle(info);
-    
+
     glClearColor(0,0,0,1); // Background Color
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    
+
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POLYGON_SMOOTH);
-    
+
     glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
     glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
     glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
-    
+
     glShadeModel(GL_SMOOTH);
 }
 void DoDisplayMatrix()
@@ -160,7 +160,7 @@ void DoDisplayLightOn()
     GLfloat lightPosition[]={0,0,-size,0};
     GLfloat materialAmbient[]={0.4,0.4,0.4,1};
     GLfloat materialSpecular[]={1,1,1,1};
-    
+
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_AMBIENT,lightAmbient);
@@ -168,7 +168,7 @@ void DoDisplayLightOn()
     glLightfv(GL_LIGHT0,GL_SPECULAR,lightSpecular);
     glLightfv(GL_LIGHT0,GL_POSITION,lightPosition);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
-    
+
     glMaterialfv(GL_FRONT,GL_AMBIENT_AND_DIFFUSE,materialAmbient);
     glMaterialfv(GL_FRONT,GL_SPECULAR,materialSpecular);
     glMaterialf(GL_FRONT,GL_SHININESS,60);
@@ -193,7 +193,7 @@ void DoDisplayGridline()
     glEnd();
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    
+
 }
 void DoDisplaySample()
 {
@@ -203,7 +203,7 @@ void DoDisplaySample()
         int count = (int)(index - aIndex.begin());
         vector<Face>::iterator startIndex = aFace.begin() + index->start;
         vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
-        
+
         if(count == selectState){
             printf("hello\n");
             glColor3f(0,1,1);
@@ -246,8 +246,8 @@ void DoDisplayLaser()
     float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
     float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
 //    printf("%f %f\n", newX, newY); // 테스트
-    
-    
+
+
     glLineWidth(3);
     glBegin(GL_LINES);
     Vector3 startPoint = Camera.position;
@@ -257,7 +257,7 @@ void DoDisplayLaser()
     glVertex3fv(startPoint);
     glVertex3fv(endPoint);
     glEnd();
-    
+
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 }
@@ -299,7 +299,7 @@ void DoMouse(int button,int state,int x,int y)
                 buttonState=buttonState|button;
                 prvX=x;
                 prvY=y;
-                
+
                 float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
                 float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
                 Vector3 direction = Camera.xAxis * newX - Camera.yAxis * newY + Camera.normal;
@@ -350,7 +350,7 @@ void DoMouseMove(int x,int y)
             Vector3 nowTranslation = Vector3(0,0,0);
             nowTranslation = nowTranslation + Camera.xAxis * newX;
             nowTranslation = nowTranslation - Camera.yAxis * newY;
-    
+
             aTranslation[selectState] = aTranslation[selectState] + nowTranslation;
             break;
         }
@@ -360,7 +360,7 @@ void DoMouseMove(int x,int y)
                                          -1.0*(y-prvY)/WindowHeight*M_PI*sin(Camera.twist*M_PI/180);
         Camera.elevation=Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
                                          +1.0*(y-prvY)/WindowHeight*M_PI*cos(Camera.twist*M_PI/180);
-        
+
         Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);
         Camera.xAxis  = rotateVector(Camera.baseXAxis , Camera.baseYAxis, -Camera.azimuth);
         Camera.normal = rotateVector(Camera.normal    , Camera.xAxis    , -Camera.elevation);
@@ -393,7 +393,7 @@ void DoMousePassiveMove(int x, int y)
         -1.0*(y-prvY)/WindowHeight*M_PI*sin(Camera.twist*M_PI/180);
         Camera.elevation=Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
         +1.0*(y-prvY)/WindowHeight*M_PI*cos(Camera.twist*M_PI/180);
-        
+
         Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);
         Camera.xAxis  = rotateVector(Camera.baseXAxis , Camera.baseYAxis, -Camera.azimuth);
         Camera.normal = rotateVector(Camera.normal    , Camera.xAxis    , -Camera.elevation);
@@ -401,7 +401,7 @@ void DoMousePassiveMove(int x, int y)
         prvX=x;
         prvY=y;
     }
-    
+
     glutPostRedisplay();
 }
 
@@ -412,7 +412,7 @@ void DoKeyboardUp(unsigned char key, int x, int y) {
 void DoKeyboard(unsigned char key,int x,int y)
 {
     if(debug == true) printf("KEYBOARD %d\n", key);
-    
+
     isPress[(int)key] = true;
     switch(key)
     {
@@ -501,7 +501,7 @@ int main(int argc,char *argv[])
     // http://goo.gl/7Zxkmp
 #endif
     glutSetCursor(GLUT_CURSOR_NONE); // 커서를 가린다.
-    
+
     glutMainLoop();
 
     return EXIT_SUCCESS;
