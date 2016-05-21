@@ -1,5 +1,5 @@
 <map id="gluLookAt" name="gluLookAt">
-<area shape="rect" id="node2" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="DoDisplayMatrix" alt="" coords="133,5,251,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="DoDisplay" alt="" coords="299,5,380,32"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="428,5,479,32"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="Set matrix for display. " alt="" coords="133,5,251,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="Executed in glDisplayFunc(). " alt="" coords="299,5,380,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="428,5,479,32"/>
 </map>
