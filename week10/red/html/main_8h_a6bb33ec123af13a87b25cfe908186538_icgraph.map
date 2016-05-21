@@ -2,8 +2,8 @@
 <area shape="rect" id="node2" href="$main_8cpp.html#a757e9d797b2f85134976c888e8b2419a" title="SelectModel" alt="" coords="291,5,385,32"/>
 <area shape="rect" id="node5" href="$main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="291,81,385,108"/>
 <area shape="rect" id="node8" href="$main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="152,31,243,57"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="DoMouse" alt="" coords="471,5,548,32"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="633,56,684,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="471,5,548,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="633,56,684,83"/>
 <area shape="rect" id="node6" href="$main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="456,56,563,83"/>
 <area shape="rect" id="node7" href="$main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="433,107,585,133"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="glConvertButton" name="glConvertButton">
-<area shape="rect" id="node2" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="DoMouse" alt="" coords="167,5,244,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="292,5,343,32"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="167,5,244,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="292,5,343,32"/>
 </map>

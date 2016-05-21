@@ -11,7 +11,7 @@ vector<Face> aFace;
 vector<Vector3> aTranslation;
 vector<Index> aIndex;
 
-Camera camera;
+Camera camera,base;
 GLfloat translationX,translationY,translationZ,translationStep=0.05;
 GLfloat twist,angleStep=2.0;
 GLfloat scale,size,scaleStep;
@@ -19,14 +19,15 @@ GLfloat projectionMatrix[16];
 int prvX,prvY,buttonState,selectState;
 char file[260],info[260];
 
-map <int, bool> isPress;
+bool isPressed[512];
 int mode = -1;
 
-bool debug = true;
-bool showGridline = true;
-int plus = 0;
+bool showGrid = true;
 
 
+/**
+@todo
+*/
 int SelectModel(Vector3 direction, Vector3 position)
 {
     for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
@@ -70,8 +71,8 @@ int SelectModel(Vector3 direction, Vector3 position)
 @date ~2016-05-20
 @brief Initialize variables.
 @par Parameters
-    None.
-@return None.
+    None
+@return None
 */
 void initialize()
 {
@@ -81,17 +82,14 @@ void initialize()
     twist=0;
     scale=1;
     scaleStep=0.05;
-    buttonState = 0;
-    selectState = -1;
-
-    camera = Camera();
-
-    prvX = -1; prvY = -1;
-
-    mode = KIST_CAMERA_MODE;
+    buttonState=0;
+    selectState=-1;
+    camera=Camera();
+    mode=KIST_MODE_VIEW;
 }
 
 /**
+@todo
 @date ~2016-05-20
 @brief Load object file.
 @par Parameters
@@ -172,25 +170,43 @@ void DoLoad()
     fclose(fp);
 }
 
+/**
+@date ~2016-05-20
+@brief Executed in glutIdleFunc().
+@par Parameters
+    None
+@return None
+*/
 void DoIdle()
 {
-    if(isPress['a'] || isPress['A'])
-        camera.position = camera.position - camera.xAxis *(float)0.05*3;
-    if(isPress['d'] || isPress['D'])
-        camera.position = camera.position + camera.xAxis *(float)0.05*3;
-    if(isPress['w'] || isPress['W'])
-        camera.position = camera.position + camera.normal*(float)0.05*3;
-    if(isPress['s'] || isPress['S'])
-        camera.position = camera.position - camera.normal*(float)0.05*3;
+    if(isPressed['a']||isPressed['A'])camera.position=camera.position-camera.xAxis*0.05*3;
+    if(isPressed['d']||isPressed['D'])camera.position=camera.position+camera.xAxis*0.05*3;
+    if(isPressed['w']||isPressed['W'])camera.position=camera.position+camera.normal*0.05*3;
+    if(isPressed['s']||isPressed['S'])camera.position=camera.position-camera.normal*0.05*3;
+    if(isPressed[' '])
+    {
+        if(!isPressed[368])camera.position=camera.position+camera.yAxis*0.05*3;
+        else camera.position=camera.position-camera.yAxis*0.05*3;
+    }
+    if(isPressed[256+GLUT_KEY_LEFT])translationX=translationX-translationStep*size;
+    if(isPressed[256+GLUT_KEY_RIGHT])translationX=translationX+translationStep*size;
+    if(isPressed[256+GLUT_KEY_UP])translationY=translationY+translationStep*size;
+    if(isPressed[256+GLUT_KEY_DOWN])translationY=translationY-translationStep*size;
+    if(isPressed[','])translationZ=translationZ-translationStep*size;
+    if(isPressed['.'])translationZ=translationZ+translationStep*size;
     glutPostRedisplay();
 }
 
+/**
+@date ~2016-05-20
+@brief Initialize display.
+@par Parameters
+    None
+@return None
+*/
 void DoDisplayInit()
 {
-    sprintf(info,"\"%s\" - x=%.1f, y=%.1f, z=%.1f, t=%.1f, s=%.1f",file,translationX,translationY,translationZ,twist,scale);
-    glutSetWindowTitle(info);
-
-    glClearColor(0,0,0,1); // Background Color
+    glClearColor(0,0,0,1);
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -208,18 +224,33 @@ void DoDisplayInit()
 
     glShadeModel(GL_SMOOTH);
 }
+
+/**
+@date ~2016-05-20
+@brief Set matrix for display.
+@par Parameters
+    None
+@return None
+*/
 void DoDisplayMatrix()
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-//    glOrtho(-size,size,-size,size,-size*scale,size*scale);
-    glFrustum(-1, 1, -1, 1, 1, 50);
-    gluLookAt(camera.position, camera.position + camera.normal, camera.yAxis);
+    glFrustum(-1,1,-1,1,1,50);
+    gluLookAt(camera.position,camera.position+camera.normal,camera.yAxis);
     glScalef(scale,scale,scale);
     glTranslatef(translationX,translationY,translationZ);
     glRotatef(twist,0.0,0.0,1.0);
 }
-void DoDisplayLightOn()
+
+/**
+@date ~2016-05-20
+@brief Set light for display.
+@par Parameters
+    None
+@return None
+*/
+void DoDisplayLight()
 {
     GLfloat lightAmbient[]={0.3,0.3,0.3,1};
     GLfloat lightDiffuse[]={0.6,0.6,0.6,1};
@@ -241,28 +272,41 @@ void DoDisplayLightOn()
     glMaterialf(GL_FRONT,GL_SHININESS,60);
     glEnable(GL_COLOR_MATERIAL);
 }
-void DoDisplayGridline()
+
+/**
+@date ~2016-05-20
+@brief Show grid in display.
+@par Parameters
+    None
+@return None
+*/
+void DoDisplayGrid()
 {
-    if(!showGridline) return;
+    if(!showGrid)return;
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
 
     glLineWidth(3);
     glBegin(GL_LINES);
     glColor3f(0,0,1);
-    for(GLfloat i=-1.6; i<=1.65; i+=0.8) {
-        for(GLfloat j=-1.6; j<=1.65; j+=0.8) {
-            glVertex3f(i, j, +00.0);
-            glVertex3f(i, j, -10.0);
+    for(GLfloat i=-1.6;i<=1.65;i+=0.8)
+    {
+        for(GLfloat j=-1.6;j<=1.65;j+=0.8)
+        {
+            glVertex3f(i,j,0);
+            glVertex3f(i,j,-10);
         }
     }
 
     glEnd();
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-
 }
-void DoDisplaySample()
+
+/**
+@todo
+*/
+void DoDisplayObject()
 {
     glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
     for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
@@ -271,12 +315,8 @@ void DoDisplaySample()
         vector<Face>::iterator startIndex = aFace.begin() + index->start;
         vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
 
-        if(count == selectState){
-            printf("hello\n");
-            glColor3f(0,1,1);
-        }else{
-            glColor3f(1,1,1);
-        }
+        if(count==selectState)glColor3f(0,1,1);
+        else glColor3f(1,1,1);
 
         for(vector<Face>::iterator it=startIndex; it!=endIndex; ++it)
         {
@@ -303,16 +343,18 @@ void DoDisplaySample()
         }
     }
 }
+
+/**
+@todo
+*/
 void DoDisplayLaser()
 {
-    if(mode == KIST_CAMERA_MODE)
-        return;
+    if(mode!=KIST_MODE_SELECT)return;
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
 
     float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
     float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
-//    printf("%f %f\n", newX, newY); // 테스트
 
 
     glLineWidth(3);
@@ -328,32 +370,70 @@ void DoDisplayLaser()
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 }
-void DoDisplayString()
+
+/**
+@date ~2016-05-20
+@brief Show string in display.
+@param [in] x x-axis value
+@param [in] y y-axis value
+@param [in] z z-axis value
+@param [in] string String to show
+@return None
+*/
+void DoDisplayString(GLfloat x,GLfloat y,GLfloat z,const char *string)
 {
     glLoadIdentity();
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
     glColor3f(1,1,1);
-    glText(-1, -0.98, camera.position.y-1,"z, gird(l)ine, (m)ode");
+    glText(x,y,z,string);
 }
 
+/**
+@date ~2016-05-20
+@brief Executed in glDisplayFunc().
+@return None
+*/
 void DoDisplay()
 {
     DoDisplayInit();
     DoDisplayMatrix();
-    DoDisplayLightOn();
-    DoDisplayGridline();
-    DoDisplaySample();
+    DoDisplayLight();
+    DoDisplayGrid();
+    DoDisplayObject();
     DoDisplayLaser();
-    DoDisplayString();
+    DoDisplayString(-1,-0.98,camera.position.y-1,"[ASDF] Camera  [ARROW] Object  [Z] Reset  [L] Load  [G] Grid  [M] Mode");
+#ifdef _DEBUG
+    char info[260];
+    sprintf(info,"x=%.1f, y=%.1f, z=%.1f, t=%.1f, s=%.1f",translationX,translationY,translationZ,twist,scale);
+    DoDisplayString(-1,-0.9,camera.position.y-1,info);
+#endif
     glFlush();
 }
 
+/**
+@todo Realization
+@date ~2016-05-20
+@brief Executed in glReshapeFunc().
+@param [in] w Reshaped width
+@param [in] h Reshaped height
+@return None
+*/
 void DoReshape(int w,int h)
 {
     // TODO
 }
 
+/**
+@todo
+@date ~2016-05-20
+@brief Executed in glMouseFunc().
+@param [in] button Pressed mouse button
+@param [in] state Mouse state
+@param [in] x x-coordinate
+@param [in] y y-coordinate
+@return None
+*/
 void DoMouse(int button,int state,int x,int y)
 {
     button=glConvertButton(button);
@@ -361,29 +441,31 @@ void DoMouse(int button,int state,int x,int y)
     {
         switch(button)
         {
-        case KIST_LEFT_BUTTON:
+        case KIST_MOUSE_LEFT:
             {
-                buttonState=buttonState|button;
-                prvX=x;
-                prvY=y;
 
-                float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
-                float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
-                Vector3 direction = camera.xAxis * newX - camera.yAxis * newY + camera.normal;
-                if(debug) printf("[%d %d -> %d]\n", x, y, selectState);
-                selectState = SelectModel(direction, camera.position);
-                glutPostRedisplay();
-                break;
+            buttonState=buttonState|button;
+            prvX=x;
+            prvY=y;
+            float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
+            float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
+            Vector3 direction = camera.xAxis * newX - camera.yAxis * newY + camera.normal;
+#ifdef _DEBUG
+            printf("[%d %d -> %d]\n", x, y, selectState);
+#endif
+            selectState = SelectModel(direction, camera.position);
+            glutPostRedisplay();
+            break;
             }
-        case KIST_RIGHT_BUTTON:
+        case KIST_MOUSE_RIGHT:
             buttonState=buttonState|button;
             prvX=x;
             prvY=y;
             break;
-        case KIST_SCROLL_UP:
+        case KIST_MOUSE_SCROLLUP:
             scale=scale*(1+scaleStep);
             break;
-        case KIST_SCROLL_DOWN:
+        case KIST_MOUSE_SCROLLDOWN:
             scale=scale/(1+scaleStep);
             break;
         }
@@ -392,10 +474,10 @@ void DoMouse(int button,int state,int x,int y)
     {
         switch(button)
         {
-        case KIST_LEFT_BUTTON:
+        case KIST_MOUSE_LEFT:
             buttonState=buttonState&(~button);
-
-        case KIST_RIGHT_BUTTON:
+            break;
+        case KIST_MOUSE_RIGHT:
             buttonState=buttonState&(~button);
             break;
         }
@@ -403,11 +485,14 @@ void DoMouse(int button,int state,int x,int y)
     glutPostRedisplay();
 }
 
+/**
+@todo
+*/
 void DoMouseMove(int x,int y)
 {
     switch(buttonState)
     {
-        case KIST_LEFT_BUTTON:
+        case KIST_MOUSE_LEFT:
         {
             if(selectState == -1) break;
 
@@ -421,19 +506,17 @@ void DoMouseMove(int x,int y)
             aTranslation[selectState] = aTranslation[selectState] + nowTranslation;
             break;
         }
-
-    case KIST_RIGHT_BUTTON:
+    case KIST_MOUSE_RIGHT:
         camera.azimuth  =camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(camera.twist*M_PI/180)
                                          -1.0*(y-prvY)/WindowHeight*M_PI*sin(camera.twist*M_PI/180);
         camera.elevation=camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(camera.twist*M_PI/180)
                                          +1.0*(y-prvY)/WindowHeight*M_PI*cos(camera.twist*M_PI/180);
-
-        camera.normal = rotateVector(camera.baseNormal, camera.baseYAxis, -camera.azimuth);
-        camera.xAxis  = rotateVector(camera.baseXAxis , camera.baseYAxis, -camera.azimuth);
-        camera.normal = rotateVector(camera.normal    , camera.xAxis    , -camera.elevation);
-        camera.yAxis  = rotateVector(camera.baseYAxis , camera.xAxis    , -camera.elevation);
+        camera.normal=rotateVector(base.normal,base.yAxis,-camera.azimuth);
+        camera.xAxis=rotateVector(base.xAxis,base.yAxis,-camera.azimuth);
+        camera.normal=rotateVector(camera.normal,camera.xAxis,-camera.elevation);
+        camera.yAxis=rotateVector(base.yAxis,camera.xAxis,-camera.elevation);
         break;
-    case KIST_BOTH_BUTTON:
+    case KIST_MOUSE_BOTH:
         twist=twist+(atan2(-y+WindowHeight/2,x-WindowWidth/2)-atan2(-prvY+WindowHeight/2,prvX-WindowWidth/2))*180/M_PI;
         break;
     }
@@ -441,9 +524,14 @@ void DoMouseMove(int x,int y)
     prvY=y;
     glutPostRedisplay();
 }
-void DoMousePassiveMove(int x, int y)
+
+/**
+@todo
+*/
+void DoMousePassiveMove(int x,int y)
 {
-    if(mode == KIST_SELECT_MODE) {
+    if(mode==KIST_MODE_SELECT)
+    {
         prvX=x;
         prvY=y;
         return;
@@ -461,10 +549,10 @@ void DoMousePassiveMove(int x, int y)
         camera.elevation=camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(camera.twist*M_PI/180)
         +1.0*(y-prvY)/WindowHeight*M_PI*cos(camera.twist*M_PI/180);
 
-        camera.normal = rotateVector(camera.baseNormal, camera.baseYAxis, -camera.azimuth);
-        camera.xAxis  = rotateVector(camera.baseXAxis , camera.baseYAxis, -camera.azimuth);
+        camera.normal = rotateVector(base.normal, base.yAxis, -camera.azimuth);
+        camera.xAxis  = rotateVector(base.xAxis , base.yAxis, -camera.azimuth);
         camera.normal = rotateVector(camera.normal    , camera.xAxis    , -camera.elevation);
-        camera.yAxis  = rotateVector(camera.baseYAxis , camera.xAxis    , -camera.elevation);
+        camera.yAxis  = rotateVector(base.yAxis , camera.xAxis    , -camera.elevation);
         prvX=x;
         prvY=y;
     }
@@ -472,87 +560,112 @@ void DoMousePassiveMove(int x, int y)
     glutPostRedisplay();
 }
 
-void DoKeyboardUp(unsigned char key, int x, int y) {
-    isPress[(int)key] = false;
-}
-
+/**
+@date ~2016-05-20
+@brief Executed in glKeyboardFunc().
+@param [in] key Rressed key code
+@param [in] x ?
+@param [in] y ?
+@return None
+*/
 void DoKeyboard(unsigned char key,int x,int y)
 {
-    if(debug == true) printf("KEYBOARD %d\n", key);
-
-    isPress[(int)key] = true;
+#ifdef _DEBUG
+    printf("[KEY] %d\n",(int)key);
+#endif
+    isPressed[key]=true;
     switch(key)
     {
-    case 'x':
-        translationZ=translationZ-translationStep*size;
-        break;
-    case 'c':
-        translationZ=translationZ+translationStep*size;
-        break;
     case 'z':
         initialize();
         break;
     case 'g':
-        debug = !debug;
+        showGrid=!showGrid;
         break;
     case 'l':
-        showGridline = !showGridline;
-        break;
-    case 'p':
-        camera.position.z += 1;
-        break;
-    case ' ':
         DoLoad();
         break;
     case 'm':
-        if(mode == KIST_SELECT_MODE)
+        switch(mode)
         {
-            mode = KIST_CAMERA_MODE;
-            glutSetCursor(GLUT_CURSOR_NONE); // 커서를 가린다.
-        }else if(mode == KIST_CAMERA_MODE)
-        {
-            mode = KIST_SELECT_MODE;
+        case KIST_MODE_SELECT:
+            mode=KIST_MODE_VIEW;
+            glutSetCursor(GLUT_CURSOR_NONE);
+            break;
+        case KIST_MODE_VIEW:
+            mode=KIST_MODE_SELECT;
             glutSetCursor(GLUT_CURSOR_INHERIT);
+            break;
         }
         break;
     }
     glutPostRedisplay();
 }
 
-void DoSpecial(int key,int x,int y)
+/**
+@date ~2016-05-20
+@brief Executed in glKeyboardUpFunc().
+@param [in] key Released key code
+@param [in] x ?
+@param [in] y ?
+@return None
+*/
+void DoKeyboardUp(unsigned char key,int x,int y)
 {
-//    isPress[key + 256] = true;
-    printf("SPECIAL %d\n", key);
-    switch(key)
-    {
-    case GLUT_KEY_LEFT:
-        translationX=translationX-translationStep*size;
-        break;
-    case GLUT_KEY_RIGHT:
-        translationX=translationX+translationStep*size;
-        break;
-    case GLUT_KEY_UP:
-        translationY=translationY+translationStep*size;
-        break;
-    case GLUT_KEY_DOWN:
-        translationY=translationY-translationStep*size;
-        break;
-    }
-    glutPostRedisplay();
+    isPressed[key]=false;
 }
 
+/**
+@date ~2016-05-20
+@brief Executed in glSpecialUpFunc().
+@param [in] key Pressed key code
+@param [in] x ?
+@param [in] y ?
+@return None
+*/
+void DoSpecial(int key,int x,int y)
+{
+#ifdef _DEBUG
+    printf("[SPECIAL] %d\n",256+key);
+#endif
+    isPressed[256+key]=true;
+}
+
+/**
+@date ~2016-05-20
+@brief Executed in glSpecialFunc().
+@param [in] key Released key code
+@param [in] x ?
+@param [in] y ?
+@return None
+*/
+void DoSpecialUp(int key,int x,int y)
+{
+    isPressed[256+key]=false;
+}
+
+/**
+@date ~2016-05-20
+@brief Start program and call OpenGL functions.
+@param [in] argc Argument count
+@param [in] argv Argument vector
+@retval 0 Program exited successfully
+@retval Otherwise Program exited with an error
+*/
 int main(int argc,char *argv[])
 {
-#if !defined(_DEBUG) && !defined(__APPLE__)
+#if !defined(_DEBUG)&&!defined(__APPLE__)
     FreeConsole();
 #endif
+#ifdef __APPLE__
+    CGSetLocalEventsSuppressionInterval(0.0); // http://goo.gl/7Zxkmp
+#endif
     initialize();
-    DoLoad();
 
     glutInit(&argc,argv);
     glutInitWindowSize(WindowWidth,WindowHeight);
-    glutCreateWindow(NULL);
-
+    glutCreateWindow("3D-Paint");
+    glutSetCursor(GLUT_CURSOR_NONE);
     glutDisplayFunc(DoDisplay);
     glutReshapeFunc(DoReshape);
     glutMouseFunc(DoMouse);
@@ -561,16 +674,8 @@ int main(int argc,char *argv[])
     glutKeyboardFunc(DoKeyboard);
     glutKeyboardUpFunc(DoKeyboardUp);
     glutSpecialFunc(DoSpecial);
+    glutSpecialUpFunc(DoSpecialUp);
     glutIdleFunc(DoIdle);
-#ifdef __APPLE__
-/*
-@Note
-    OS X 에서 기본 설정이 0.25라서 끊기는 현상이 발생하는 것을 방지.
-    http://goo.gl/7Zxkmp
-*/
-    CGSetLocalEventsSuppressionInterval(0.0);
-#endif
-    glutSetCursor(GLUT_CURSOR_NONE); // 커서를 가린다.
 
     glutMainLoop();
 

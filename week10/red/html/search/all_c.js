@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['plus',['plus',['../main_8cpp.html#a4a73aa0ef622c34ee90df253df4fd9c5',1,'main.cpp']]],
   ['position',['position',['../struct_camera.html#aa3886b557c26f4d36a30d31ba38de1ea',1,'Camera']]],
   ['projectionmatrix',['projectionMatrix',['../main_8cpp.html#a34ea9ce4b2d8cea7b52b3295435f5ef7',1,'main.cpp']]],
   ['prvx',['prvX',['../main_8cpp.html#a4b0a6df44ed133f4c23c3e30dfaa6ded',1,'main.cpp']]],

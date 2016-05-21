@@ -24,14 +24,39 @@
 
 using namespace std;
 
-#define KIST_CAMERA_MODE 0
-#define KIST_SELECT_MODE 1
+/**
+@def KIST_MODE_VIEW
+@date ~2016-05-20
+@brief Mode: view
+@def KIST_MODE_SELECT
+@date ~2016-05-20
+@brief Mode: select
+*/
+#define KIST_MODE_VIEW      0
+#define KIST_MODE_SELECT    1
 
-#define KIST_LEFT_BUTTON    0x0010
-#define KIST_RIGHT_BUTTON   0x0020
-#define KIST_BOTH_BUTTON    0x0030
-#define KIST_SCROLL_UP      0x0003
-#define KIST_SCROLL_DOWN    0x0004
+/**
+@def KIST_MOUSE_LEFT
+@date ~2016-05-20
+@brief Mouse: left
+@def KIST_MOUSE_RIGHT
+@date ~2016-05-20
+@brief Mouse: right
+@def KIST_MOUSE_BOTH
+@date ~2016-05-20
+@brief Mouse: both
+@def KIST_MOUSE_SCROLLUP
+@date ~2016-05-20
+@brief Mouse: scroll up
+@def KIST_MOUSE_SCROLLDOWN
+@date ~2016-05-20
+@brief Mouse: scroll down
+*/
+#define KIST_MOUSE_LEFT         0x0010
+#define KIST_MOUSE_RIGHT        0x0020
+#define KIST_MOUSE_BOTH         0x0030
+#define KIST_MOUSE_SCROLLUP     0x0003
+#define KIST_MOUSE_SCROLLDOWN   0x0004
 
 /**
 @var WindowWidth
@@ -64,11 +89,11 @@ struct Vector3
 {
     /**
     @date ~2016-05-20
-    @brief Default constructor for Vector3 struct.
+    @brief Construct a Vector3 instance.
     @param [in] x x-axis value
     @param [in] y y-axis value
     @param [in] z z-axis value
-    @return Constructed Vector3 object
+    @return Constructed Vector3 instance
     */
     Vector3(GLfloat x=0,GLfloat y=0,GLfloat z=0)
     {
@@ -199,10 +224,10 @@ struct Camera
 {
     /**
     @date ~2016-05-20
-    @brief Default constructor for Camera struct.
+    @brief Construct a Camera instance.
     @par Parameters
         None
-    @return Constructed Camera object
+    @return Constructed Camera instance
     */
     Camera()
     {
@@ -210,9 +235,6 @@ struct Camera
         normal=Vector3(0,0,-1);
         xAxis=Vector3(1,0,0);
         yAxis=Vector3(0,1,0);
-        baseNormal=normal;
-        baseXAxis=xAxis;
-        baseYAxis=yAxis;
         azimuth=0;
         elevation=0;
         twist=0;
@@ -221,9 +243,18 @@ struct Camera
     /**
     @var Camera::position
     @date ~2016-05-20
-    @brief // TODO
+    @brief Position vector
+    @var Camera::normal
+    @date ~2016-05-20
+    @brief Direction vector
+    @var Camera::xAxis
+    @date ~2016-05-20
+    @brief x-axis vector
+    @var Camera::yAxis
+    @date ~2016-05-20
+    @brief y-axis vector
     */
-    Vector3 position,normal,xAxis,yAxis,baseNormal,baseXAxis,baseYAxis;
+    Vector3 position,normal,xAxis,yAxis;
 
     /**
     @var Camera::azimuth
@@ -286,9 +317,9 @@ inline int glConvertButton(int button)
     switch(button)
     {
     case GLUT_LEFT_BUTTON:
-        return KIST_LEFT_BUTTON;
+        return KIST_MOUSE_LEFT;
     case GLUT_RIGHT_BUTTON:
-        return KIST_RIGHT_BUTTON;
+        return KIST_MOUSE_RIGHT;
     default:
         return button;
     }
@@ -399,12 +430,3 @@ int getDirection(Vector3 a,Vector3 b,Vector3 c,Vector3 camera)
 }
 
 #endif // __MAIN_H__
-
-
-
-
-
-
-
-
-

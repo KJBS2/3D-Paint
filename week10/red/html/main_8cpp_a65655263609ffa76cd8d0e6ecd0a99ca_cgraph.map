@@ -1,13 +1,13 @@
 <map id="DoDisplay" name="DoDisplay">
-<area shape="rect" id="node2" href="$main_8cpp.html#a334e7c00e208a5a69a18a1fc25777a0d" title="DoDisplayInit" alt="" coords="149,5,247,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="DoDisplayMatrix" alt="" coords="139,56,257,83"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a596c4bb57a0a9141b3b44cbdf537f12d" title="DoDisplayLightOn" alt="" coords="135,107,261,133"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#a37e19839879febc25323a7e66939257d" title="DoDisplayGridline" alt="" coords="135,157,261,184"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#a46b76546a00e05e4987ac7ee907b1ec5" title="DoDisplaySample" alt="" coords="135,208,261,235"/>
-<area shape="rect" id="node10" href="$main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f" title="DoDisplayLaser" alt="" coords="141,259,255,285"/>
-<area shape="rect" id="node11" href="$main_8cpp.html#acfc7550f51fe57a8fedc5d3122abfafb" title="DoDisplayString" alt="" coords="141,309,255,336"/>
-<area shape="rect" id="node4" href="$main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. " alt="" coords="331,56,411,83"/>
-<area shape="rect" id="node8" href="$struct_vector3.html#a1641eed331f1ade1bce9907b108be8a9" title="Get norm value. " alt="" coords="309,208,433,235"/>
-<area shape="rect" id="node9" href="$main_8h.html#af9a5011ed00adb2e842cfd0a67e02865" title="Call glVertex3f() for given vector. " alt="" coords="329,259,414,285"/>
-<area shape="rect" id="node12" href="$main_8h.html#a2b2b7b29397c041bb368709d276350c5" title="Print text to given coordinate. " alt="" coords="343,309,400,336"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#a334e7c00e208a5a69a18a1fc25777a0d" title="Initialize display. " alt="" coords="145,5,243,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="Set matrix for display. " alt="" coords="135,56,253,83"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#ac9000e40de01bd2c5a7d6f80a4d8f37d" title="Set light for display. " alt="" coords="139,107,249,133"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#a51693696c95f6f847493872a0f994511" title="Show grid in display. " alt="" coords="141,157,247,184"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="DoDisplayObject" alt="" coords="135,208,253,235"/>
+<area shape="rect" id="node10" href="$main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f" title="DoDisplayLaser" alt="" coords="137,259,251,285"/>
+<area shape="rect" id="node11" href="$main_8cpp.html#a0de21e1e5535fb5ea3900dd3694112f6" title="Show string in display. " alt="" coords="137,309,251,336"/>
+<area shape="rect" id="node4" href="$main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. " alt="" coords="323,56,403,83"/>
+<area shape="rect" id="node8" href="$struct_vector3.html#a1641eed331f1ade1bce9907b108be8a9" title="Get norm value. " alt="" coords="301,208,425,235"/>
+<area shape="rect" id="node9" href="$main_8h.html#af9a5011ed00adb2e842cfd0a67e02865" title="Call glVertex3f() for given vector. " alt="" coords="321,259,406,285"/>
+<area shape="rect" id="node12" href="$main_8h.html#a2b2b7b29397c041bb368709d276350c5" title="Print text to given coordinate. " alt="" coords="335,309,392,336"/>
 </map>
