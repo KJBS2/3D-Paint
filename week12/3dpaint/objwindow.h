@@ -2,13 +2,13 @@
 #define OBJWINDOW_H
 
 #include <QWidget>
-#include<vector>
-#include<QtOpenGL>
-#include<QString>
+#include <vector>
+#include <QtOpenGL>
+#include <QString>
+#include <GL/GL.h>
+#include <GL/GLU.h>
 
 using namespace std;
-
-
 
 struct Vector3
 {
@@ -74,7 +74,7 @@ struct Face
     vector<Vector3> normal;
 };
 
-inline void glVertex3fv(Vector3 &v){
+inline void glVertex3fvv(Vector3 &v){
     glVertex3f(v.x,v.y,v.z);
 }
 inline float InnerProduct(Vector3 A, Vector3 B) {
@@ -112,12 +112,11 @@ struct CAMERA{
     }
 };
 
-class ObjWindow
+class ObjWindow:public QWidget
 {
-
+    Q_OBJECT
 public:
-    ObjWindow(QString file);
-    QWidget widget;
+    explicit ObjWindow(QString file,QWidget *parent = 0);
 
 signals:
 
@@ -125,6 +124,14 @@ public slots:
 
 private:
     void parse();
+    //
+
+    void paintEvent(QPaintEvent *);
+    void doDisplayInit();
+    void doDisplayMatrix();
+    void doDisplayLightOn();
+    void doDisplaySample();
+
     //file directory
     QString file;
 
@@ -133,7 +140,7 @@ private:
     vector<Face> aFace;
     GLfloat translationX,translationY,translationZ,translationStep;
     GLfloat twist,elevation,azimuth,angleStep;
-    GLfloat scale,size,scaleStep;
+    GLfloat scale,osize,scaleStep;
     GLfloat projectionMatrix[16];
     CAMERA Camera;
     // ex) aVector aFace Camera.. etc

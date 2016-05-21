@@ -15,10 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     objwindow.cpp \
-    objviewer.cpp \
+    objviewer.cpp
 
 HEADERS  += mainwindow.h \
     objwindow.h \
-    objviewer.h \
+    objviewer.h
 
 FORMS    += mainwindow.ui
+
+LIBS    += -lglu32
+LIBS    += -lopengl32

@@ -19,6 +19,6 @@ void ObjViewer::add(QString fileName)
     int idx=0;
     for(int i=0;i<fileName.length();++i) if(fileName.at(i)=='/') idx=i;
 
-    tab.addTab(&aWindow[nWindow]->widget,fileName.mid(idx+1,fileName.length()-idx));
+    tab.addTab(aWindow[nWindow],fileName.mid(idx+1,fileName.length()-idx));
     ++nWindow;
 }

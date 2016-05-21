@@ -1,16 +1,25 @@
 #include "objwindow.h"
 #include<QFile>
 #include<QString>
+#include<QWidget>
+#include<GL/GL.h>
+#include<GL/GLU.h>
 
-ObjWindow::ObjWindow(QString _file)
+ObjWindow::ObjWindow(QString _file,QWidget *parent) : QWidget(parent)
 {
     file=_file;
     aVertex.clear();
     aNormal.clear();
     aFace.clear();
-    size=0;
+    osize=0;
+    translationX=translationY=translationZ=0;
+    elevation=azimuth=twist=0;
+    scale=1;
+    scaleStep=0.05;
+    angleStep=2.0;
+    translationStep=0.05;
 
-
+    Camera = CAMERA();
     parse();
 }
 void ObjWindow::parse()
@@ -23,8 +32,8 @@ void ObjWindow::parse()
         while(!in.atEnd())
         {
             QString input = in.readLine();
-            char* line =(char*)input.toStdString().c_str();
-
+            QByteArray array = input.toLocal8Bit();
+            char* line = array.data();
             int i;
 
             if(!strncmp(line,"v ",2))
@@ -32,7 +41,7 @@ void ObjWindow::parse()
                 Vector3 v;
                 sscanf(line+2,"%f%f%f",&v.x,&v.y,&v.z);
                 aVertex.push_back(v);
-                if(v.getNorm()>size)size=v.getNorm();
+                if(v.getNorm()>osize)osize=v.getNorm();
             }
             else if(!strncmp(line,"vn ",3))
             {
@@ -45,7 +54,7 @@ void ObjWindow::parse()
                 int t;
                 Vector3 n;
                 aFace.push_back(Face());
-                char *pt=line+2;
+                const char *pt=line+2;
                 while(1)
                 {
                     sscanf(pt,"%d",&t);
@@ -70,9 +79,109 @@ void ObjWindow::parse()
                         digit[1]=0;
                         if(strstr(pt,digit))break;
                     }
-                    if(i>'9')break;
+                    if(i>'9') break;
                 }
             }
         }
     }
+}
+
+void ObjWindow::doDisplayInit()
+{
+    glClearColor(0,0,0,1); // Background Color
+
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_POINT_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_POLYGON_SMOOTH);
+
+    glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
+    glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+    glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
+
+    glShadeModel(GL_SMOOTH);
+
+}
+void ObjWindow::doDisplayMatrix()
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-1, 1, -1, 1, 1, 50);
+    Camera.position+Camera.normal;
+    Vector3 temp= Camera.position +Camera.normal;
+    gluLookAt(Camera.position.x,Camera.position.y,Camera.position.z, temp.x,temp.y,temp.z, Camera.yAxis.x,Camera.yAxis.y,Camera.yAxis.z);
+    glScalef(scale,scale,scale);
+    glTranslatef(translationX,translationY,translationZ);
+    glRotatef(twist,0.0,0.0,1.0);
+    glRotatef(elevation,1.0,0.0,0.0);
+    glRotatef(azimuth,0.0,1.0,0.0);
+
+}
+void ObjWindow::doDisplayLightOn()
+{
+    GLfloat lightAmbient[]={0.5,0.5,0.5,1};
+    GLfloat lightDiffuse[]={0.7,0.7,0.7,1};
+    GLfloat lightSpecular[]={1,1,1,1};
+    GLfloat lightPosition[]={0,0,-osize,0};
+    GLfloat materialAmbient[]={0.7,0.7,0.7,1};
+    GLfloat materialSpecular[]={1,1,1,1};
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0,GL_AMBIENT,lightAmbient);
+    glLightfv(GL_LIGHT0,GL_DIFFUSE,lightDiffuse);
+    glLightfv(GL_LIGHT0,GL_SPECULAR,lightSpecular);
+    glLightfv(GL_LIGHT0,GL_POSITION,lightPosition);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
+
+    glMaterialfv(GL_FRONT,GL_AMBIENT_AND_DIFFUSE,materialAmbient);
+    glMaterialfv(GL_FRONT,GL_SPECULAR,materialSpecular);
+    glMaterialf(GL_FRONT,GL_SHININESS,128);
+
+}
+void ObjWindow::doDisplaySample()
+{
+    glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
+
+    for(vector<Face>::iterator it=aFace.begin();it!=aFace.end();++it)
+    {
+        glBegin(GL_POLYGON);
+        if(it->vertexNo.size()<3)continue;
+        for(unsigned int i=0;i<it->vertexNo.size();++i)
+        {
+            if(it->normal[i].x==0&&it->normal[i].y==0&&it->normal[i].z==0)
+            {
+                Vector3 ba=aVertex[it->vertexNo[1]-1]-aVertex[it->vertexNo[0]-1];
+                Vector3 ca=aVertex[it->vertexNo[2]-1]-aVertex[it->vertexNo[0]-1];
+                Vector3 n(ca.y*ba.z-ba.y*ca.z,ca.z*ba.x-ba.z*ca.x,ca.x*ba.y-ba.x*ca.y);
+                it->normal[i]=n;
+            }
+            Vector3 n2(-it->normal[i].x*projectionMatrix[0]-it->normal[i].y*projectionMatrix[4]-it->normal[i].z*projectionMatrix[8]
+                       ,-it->normal[i].x*projectionMatrix[1]-it->normal[i].y*projectionMatrix[5]-it->normal[i].z*projectionMatrix[9]
+                       ,-it->normal[i].x*projectionMatrix[2]-it->normal[i].y*projectionMatrix[6]-it->normal[i].z*projectionMatrix[10]);
+            n2=n2/n2.getNorm();
+            glNormal3f(n2.x,n2.y,n2.z);
+            glVertex3fvv(aVertex[it->vertexNo[i]-1]);
+        }
+        glEnd();
+    }
+
+}
+
+
+
+void ObjWindow::paintEvent(QPaintEvent *)
+{
+    glViewport(0, 0, 400, 600);
+
+    doDisplayInit();
+    doDisplayMatrix();
+    doDisplayLightOn();
+    doDisplaySample();
+    glFlush();
 }
