@@ -1,5 +1,17 @@
+/**
+@file main.cpp
+@date ~2016-05-20
+@brief Main source file
+*/
+
 #include"main.h"
 
+vector<Vector3> aVertex,aNormal;
+vector<Face> aFace;
+vector<Vector3> aTranslation;
+vector<Index> aIndex;
+
+Camera camera;
 GLfloat translationX,translationY,translationZ,translationStep=0.05;
 GLfloat twist,angleStep=2.0;
 GLfloat scale,size,scaleStep;
@@ -14,6 +26,53 @@ bool debug = true;
 bool showGridline = true;
 int plus = 0;
 
+
+int SelectModel(Vector3 direction, Vector3 position)
+{
+    for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
+    {
+        int count = (int)(index - aIndex.begin());
+        vector<Face>::iterator startIndex = aFace.begin() + index->start;
+        vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
+
+        for(vector<Face>::iterator it=startIndex; it!=endIndex; ++it)
+        {
+            if(it->vertexNo.size()<3)continue;
+            Vector3 point[3];
+            point[0] = aVertex[it->vertexNo[0]] + aTranslation[count];
+            point[1] = aVertex[it->vertexNo[1]] + aTranslation[count];
+            point[2] = aVertex[it->vertexNo[2]] + aTranslation[count];
+            Vector3 normal = crossProduct(point[1]-point[0], point[2]-point[0]);
+            float t = dotProduct(normal, point[0] - position)/dotProduct(normal, direction);
+            Vector3 intersect = position + direction * t;
+
+            for(unsigned int i=1;i<it->vertexNo.size()-1;++i)
+            {
+                point[1] = aVertex[it->vertexNo[i]]   + aTranslation[count];
+                point[2] = aVertex[it->vertexNo[i+1]] + aTranslation[count];
+                int cnt = 0;
+                for(int k=0; k<3; k++) {
+                    int nowDir = getDirection(point[k], point[(k+1)%3], intersect, position);
+                    cnt += nowDir;
+                }
+                if(cnt == -3 || cnt == 3) {
+                    return (int)(index - aIndex.begin());
+                }
+            }
+        }
+    }
+
+
+    return -1;
+}
+
+/**
+@date ~2016-05-20
+@brief Initialize variables.
+@par Parameters
+    None.
+@return None.
+*/
 void initialize()
 {
     translationX=0;
@@ -25,13 +84,20 @@ void initialize()
     buttonState = 0;
     selectState = -1;
 
-    Camera = CAMERA();
+    camera = Camera();
 
     prvX = -1; prvY = -1;
 
     mode = KIST_CAMERA_MODE;
 }
 
+/**
+@date ~2016-05-20
+@brief Load object file.
+@par Parameters
+    None
+@return None
+*/
 void DoLoad()
 {
     Index nowIndex;
@@ -106,15 +172,16 @@ void DoLoad()
     fclose(fp);
 }
 
-void DoIdle() {
+void DoIdle()
+{
     if(isPress['a'] || isPress['A'])
-        Camera.position = Camera.position - Camera.xAxis *(float)0.05*3;
+        camera.position = camera.position - camera.xAxis *(float)0.05*3;
     if(isPress['d'] || isPress['D'])
-        Camera.position = Camera.position + Camera.xAxis *(float)0.05*3;
+        camera.position = camera.position + camera.xAxis *(float)0.05*3;
     if(isPress['w'] || isPress['W'])
-        Camera.position = Camera.position + Camera.normal*(float)0.05*3;
+        camera.position = camera.position + camera.normal*(float)0.05*3;
     if(isPress['s'] || isPress['S'])
-        Camera.position = Camera.position - Camera.normal*(float)0.05*3;
+        camera.position = camera.position - camera.normal*(float)0.05*3;
     glutPostRedisplay();
 }
 
@@ -147,7 +214,7 @@ void DoDisplayMatrix()
     glLoadIdentity();
 //    glOrtho(-size,size,-size,size,-size*scale,size*scale);
     glFrustum(-1, 1, -1, 1, 1, 50);
-    gluLookAt(Camera.position, Camera.position + Camera.normal, Camera.yAxis);
+    gluLookAt(camera.position, camera.position + camera.normal, camera.yAxis);
     glScalef(scale,scale,scale);
     glTranslatef(translationX,translationY,translationZ);
     glRotatef(twist,0.0,0.0,1.0);
@@ -250,10 +317,10 @@ void DoDisplayLaser()
 
     glLineWidth(3);
     glBegin(GL_LINES);
-    Vector3 startPoint = Camera.position;
+    Vector3 startPoint = camera.position;
     startPoint.y = startPoint.y - 0.1; // 실제로 손와 눈의 위치는 다르다. 눈에서 발사한다면 이론적으로 눈에서 보이지 않는다.
     glColor3f(0,1,0);
-    Vector3 endPoint = Camera.position + Camera.xAxis * newX * 50 - Camera.yAxis * newY * 50 + Camera.normal * 50;
+    Vector3 endPoint = camera.position + camera.xAxis * newX * 50 - camera.yAxis * newY * 50 + camera.normal * 50;
     glVertex3fv(startPoint);
     glVertex3fv(endPoint);
     glEnd();
@@ -267,7 +334,7 @@ void DoDisplayString()
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
     glColor3f(1,1,1);
-    drawBitmapText((char *)"z, gird(l)ine, (m)ode", -1, -0.98, Camera.position.y-1);
+    glText(-1, -0.98, camera.position.y-1,"z, gird(l)ine, (m)ode");
 }
 
 void DoDisplay()
@@ -302,9 +369,9 @@ void DoMouse(int button,int state,int x,int y)
 
                 float newX = (prvX - (float)WindowWidth /2) / (WindowWidth /2);
                 float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
-                Vector3 direction = Camera.xAxis * newX - Camera.yAxis * newY + Camera.normal;
+                Vector3 direction = camera.xAxis * newX - camera.yAxis * newY + camera.normal;
                 if(debug) printf("[%d %d -> %d]\n", x, y, selectState);
-                selectState = SelectModel(direction, Camera.position);
+                selectState = SelectModel(direction, camera.position);
                 glutPostRedisplay();
                 break;
             }
@@ -348,23 +415,23 @@ void DoMouseMove(int x,int y)
             float newY = (float)(y-prvY) / (WindowHeight/2)*2;
 
             Vector3 nowTranslation = Vector3(0,0,0);
-            nowTranslation = nowTranslation + Camera.xAxis * newX;
-            nowTranslation = nowTranslation - Camera.yAxis * newY;
+            nowTranslation = nowTranslation + camera.xAxis * newX;
+            nowTranslation = nowTranslation - camera.yAxis * newY;
 
             aTranslation[selectState] = aTranslation[selectState] + nowTranslation;
             break;
         }
 
     case KIST_RIGHT_BUTTON:
-        Camera.azimuth  =Camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(Camera.twist*M_PI/180)
-                                         -1.0*(y-prvY)/WindowHeight*M_PI*sin(Camera.twist*M_PI/180);
-        Camera.elevation=Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
-                                         +1.0*(y-prvY)/WindowHeight*M_PI*cos(Camera.twist*M_PI/180);
+        camera.azimuth  =camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(camera.twist*M_PI/180)
+                                         -1.0*(y-prvY)/WindowHeight*M_PI*sin(camera.twist*M_PI/180);
+        camera.elevation=camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(camera.twist*M_PI/180)
+                                         +1.0*(y-prvY)/WindowHeight*M_PI*cos(camera.twist*M_PI/180);
 
-        Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);
-        Camera.xAxis  = rotateVector(Camera.baseXAxis , Camera.baseYAxis, -Camera.azimuth);
-        Camera.normal = rotateVector(Camera.normal    , Camera.xAxis    , -Camera.elevation);
-        Camera.yAxis  = rotateVector(Camera.baseYAxis , Camera.xAxis    , -Camera.elevation);
+        camera.normal = rotateVector(camera.baseNormal, camera.baseYAxis, -camera.azimuth);
+        camera.xAxis  = rotateVector(camera.baseXAxis , camera.baseYAxis, -camera.azimuth);
+        camera.normal = rotateVector(camera.normal    , camera.xAxis    , -camera.elevation);
+        camera.yAxis  = rotateVector(camera.baseYAxis , camera.xAxis    , -camera.elevation);
         break;
     case KIST_BOTH_BUTTON:
         twist=twist+(atan2(-y+WindowHeight/2,x-WindowWidth/2)-atan2(-prvY+WindowHeight/2,prvX-WindowWidth/2))*180/M_PI;
@@ -389,15 +456,15 @@ void DoMousePassiveMove(int x, int y)
     }
     else
     {
-        Camera.azimuth  =Camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(Camera.twist*M_PI/180)
-        -1.0*(y-prvY)/WindowHeight*M_PI*sin(Camera.twist*M_PI/180);
-        Camera.elevation=Camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(Camera.twist*M_PI/180)
-        +1.0*(y-prvY)/WindowHeight*M_PI*cos(Camera.twist*M_PI/180);
+        camera.azimuth  =camera.azimuth  +1.0*(x-prvX)/WindowWidth *M_PI*cos(camera.twist*M_PI/180)
+        -1.0*(y-prvY)/WindowHeight*M_PI*sin(camera.twist*M_PI/180);
+        camera.elevation=camera.elevation+1.0*(x-prvX)/WindowWidth *M_PI*sin(camera.twist*M_PI/180)
+        +1.0*(y-prvY)/WindowHeight*M_PI*cos(camera.twist*M_PI/180);
 
-        Camera.normal = rotateVector(Camera.baseNormal, Camera.baseYAxis, -Camera.azimuth);
-        Camera.xAxis  = rotateVector(Camera.baseXAxis , Camera.baseYAxis, -Camera.azimuth);
-        Camera.normal = rotateVector(Camera.normal    , Camera.xAxis    , -Camera.elevation);
-        Camera.yAxis  = rotateVector(Camera.baseYAxis , Camera.xAxis    , -Camera.elevation);
+        camera.normal = rotateVector(camera.baseNormal, camera.baseYAxis, -camera.azimuth);
+        camera.xAxis  = rotateVector(camera.baseXAxis , camera.baseYAxis, -camera.azimuth);
+        camera.normal = rotateVector(camera.normal    , camera.xAxis    , -camera.elevation);
+        camera.yAxis  = rotateVector(camera.baseYAxis , camera.xAxis    , -camera.elevation);
         prvX=x;
         prvY=y;
     }
@@ -432,7 +499,7 @@ void DoKeyboard(unsigned char key,int x,int y)
         showGridline = !showGridline;
         break;
     case 'p':
-        Camera.position.z += 1;
+        camera.position.z += 1;
         break;
     case ' ':
         DoLoad();
@@ -496,9 +563,12 @@ int main(int argc,char *argv[])
     glutSpecialFunc(DoSpecial);
     glutIdleFunc(DoIdle);
 #ifdef __APPLE__
+/*
+@Note
+    OS X 에서 기본 설정이 0.25라서 끊기는 현상이 발생하는 것을 방지.
+    http://goo.gl/7Zxkmp
+*/
     CGSetLocalEventsSuppressionInterval(0.0);
-    // OS X 에서 기본 설정이 0.25라서 끊기는 현상이 발생하는 것을 방지.
-    // http://goo.gl/7Zxkmp
 #endif
     glutSetCursor(GLUT_CURSOR_NONE); // 커서를 가린다.
 
