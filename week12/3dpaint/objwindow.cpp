@@ -1,11 +1,11 @@
 #include "objwindow.h"
 #include<QFile>
 #include<QString>
-#include<QWidget>
+#include<QGLWidget>
 #include<GL/GL.h>
 #include<GL/GLU.h>
 
-ObjWindow::ObjWindow(QString _file,QWidget *parent) : QWidget(parent)
+ObjWindow::ObjWindow(QString _file,QWidget *parent) : QGLWidget(parent)
 {
     file=_file;
     aVertex.clear();
@@ -84,9 +84,9 @@ void ObjWindow::parse()
             }
         }
     }
-}
 
-void ObjWindow::doDisplayInit()
+}
+void ObjWindow::initializeGL()
 {
     glClearColor(0,0,0,1); // Background Color
 
@@ -170,16 +170,14 @@ void ObjWindow::doDisplaySample()
         }
         glEnd();
     }
-
 }
 
+void ObjWindow::resizeGL(int w, int h) {
+    glViewport(0, 0, w, h);
+}
 
-
-void ObjWindow::paintEvent(QPaintEvent *)
-{
-    glViewport(0, 0, 400, 600);
-
-    doDisplayInit();
+void ObjWindow::paintGL() {
+    initializeGL();
     doDisplayMatrix();
     doDisplayLightOn();
     doDisplaySample();

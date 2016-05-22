@@ -1,7 +1,7 @@
 #ifndef OBJWINDOW_H
 #define OBJWINDOW_H
 
-#include <QWidget>
+#include <QGLWidget>
 #include <vector>
 #include <QtOpenGL>
 #include <QString>
@@ -112,25 +112,22 @@ struct CAMERA{
     }
 };
 
-class ObjWindow:public QWidget
+class ObjWindow:public QGLWidget
 {
     Q_OBJECT
 public:
     explicit ObjWindow(QString file,QWidget *parent = 0);
 
-signals:
-
-public slots:
-
-private:
+protected:
     void parse();
     //
 
-    void paintEvent(QPaintEvent *);
-    void doDisplayInit();
-    void doDisplayMatrix();
-    void doDisplayLightOn();
-    void doDisplaySample();
+     void paintGL();
+     void resizeGL(int width,int height);
+     void initializeGL();
+     void doDisplayMatrix();
+     void doDisplayLightOn();
+     void doDisplaySample();
 
     //file directory
     QString file;

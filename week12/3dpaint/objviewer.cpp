@@ -15,10 +15,10 @@ ObjViewer::ObjViewer()
 
 void ObjViewer::add(QString fileName)
 {
+
     aWindow[nWindow]=new ObjWindow(fileName);
     int idx=0;
     for(int i=0;i<fileName.length();++i) if(fileName.at(i)=='/') idx=i;
-
     tab.addTab(aWindow[nWindow],fileName.mid(idx+1,fileName.length()-idx));
     ++nWindow;
 }
