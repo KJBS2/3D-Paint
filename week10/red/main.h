@@ -69,6 +69,16 @@ using namespace std;
 const int WindowWidth=600,WindowHeight=600;
 
 /**
+@todo
+*/
+GLfloat lightAmbient[]={0.3,0.3,0.3,1};
+GLfloat lightDiffuse[]={0.6,0.6,0.6,1};
+GLfloat lightSpecular[]={1,1,1,1};
+GLfloat lightPosition[]={0,0,0,0};
+GLfloat materialAmbient[]={0.4,0.4,0.4,1};
+GLfloat materialSpecular[]={1,1,1,1};
+
+/**
 @var dialogTitle
 @date ~2016-05-20
 @brief Load dialog title
@@ -290,20 +300,32 @@ struct Face
 };
 
 /**
-@date ~2016-05-20
-@brief 3D object index structure
+@date 2016-05-23
+@brief 3D object structure
 */
-struct Index
+struct Object
 {
     /**
-    @var Index::start
-    @date ~2016-05-20
-    @brief Start value
-    @var Index::end
-    @date ~2016-05-20
-    @brief End value
+    @var vertex
+    @date 2016-05-23
+    @brief Array for vertex
+    @var normal
+    @date 2016-05-23
+    @brief Array for normal
     */
-    int start,end;
+    vector<Vector3> vertex,normal;
+
+    /**
+    @date 2016-05-23
+    @brief Array for face
+    */
+    vector<Face> face;
+
+    /**
+    @date 2016-05-23
+    @brief Translation value
+    */
+    Vector3 translation;
 };
 
 /**
@@ -337,16 +359,14 @@ inline void glVertex3fv(Vector3 v)
 }
 
 /**
-@date ~2016-05-20
-@brief Call gluLookAt() for given vectors.
-@param [in] eye First vector
-@param [in] center Second vector
-@param [in] up Third vector
+@date 2016-05-23
+@brief Call glNormal3f() for given vector.
+@param [in] v Target vector
 @return None
 */
-inline void gluLookAt(Vector3 eye,Vector3 center,Vector3 up)
+inline void glNormal3fv(Vector3 v)
 {
-    gluLookAt(eye.x,eye.y,eye.z,center.x,center.y,center.z,up.x,up.y,up.z);
+    glNormal3f(v.x,v.y,v.z);
 }
 
 /**
@@ -363,6 +383,19 @@ void glText(GLfloat x,GLfloat y,GLfloat z,const char *string)
     const char *ptr;
     glRasterPos3f(x,y,z);
     for(ptr=string;*ptr!=0;ptr++)glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,*ptr);
+}
+
+/**
+@date ~2016-05-20
+@brief Call gluLookAt() for given vectors.
+@param [in] eye First vector
+@param [in] center Second vector
+@param [in] up Third vector
+@return None
+*/
+inline void gluLookAt(Vector3 eye,Vector3 center,Vector3 up)
+{
+    gluLookAt(eye.x,eye.y,eye.z,center.x,center.y,center.z,up.x,up.y,up.z);
 }
 
 /**

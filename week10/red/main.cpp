@@ -6,64 +6,49 @@
 
 #include"main.h"
 
-vector<Vector3> aVertex,aNormal;
-vector<Face> aFace;
-vector<Vector3> aTranslation;
-vector<Index> aIndex;
-
+vector<Object> aObject;
 Camera camera,base;
 GLfloat translationX,translationY,translationZ,translationStep=0.05;
 GLfloat twist,angleStep=2.0;
 GLfloat scale,size,scaleStep;
 GLfloat projectionMatrix[16];
-int prvX,prvY,buttonState,selectState;
-char file[260],info[260];
-
+int prvX,prvY,buttonState;
+int selectedObject;
 bool isPressed[512];
 int mode = -1;
-
-bool showGrid = true;
-
+bool showGrid=false;
 
 /**
-@todo
+@date ~2016-05-20
+@brief Select an object
+@param direction Direction vector
+@param position Position vector
+@retval -1 Not any object is selected
+@retval Otherwise Index for selected object
 */
-int SelectModel(Vector3 direction, Vector3 position)
+int SelectObject(Vector3 direction,Vector3 position)
 {
-    for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
+    for(unsigned int idx=0;idx<aObject.size();++idx)
     {
-        int count = (int)(index - aIndex.begin());
-        vector<Face>::iterator startIndex = aFace.begin() + index->start;
-        vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
-
-        for(vector<Face>::iterator it=startIndex; it!=endIndex; ++it)
+        for(vector<Face>::iterator it=aObject[idx].face.begin();it!=aObject[idx].face.end();++it)
         {
             if(it->vertexNo.size()<3)continue;
             Vector3 point[3];
-            point[0] = aVertex[it->vertexNo[0]] + aTranslation[count];
-            point[1] = aVertex[it->vertexNo[1]] + aTranslation[count];
-            point[2] = aVertex[it->vertexNo[2]] + aTranslation[count];
-            Vector3 normal = crossProduct(point[1]-point[0], point[2]-point[0]);
-            float t = dotProduct(normal, point[0] - position)/dotProduct(normal, direction);
-            Vector3 intersect = position + direction * t;
-
+            point[0]=aObject[idx].vertex[it->vertexNo[0]]+aObject[idx].translation;
+            point[1]=aObject[idx].vertex[it->vertexNo[1]]+aObject[idx].translation;
+            point[2]=aObject[idx].vertex[it->vertexNo[2]]+aObject[idx].translation;
+            Vector3 normal=crossProduct(point[1]-point[0],point[2]-point[0]);
+            Vector3 intersect=position+direction*dotProduct(normal,point[0]-position)/dotProduct(normal,direction);
             for(unsigned int i=1;i<it->vertexNo.size()-1;++i)
             {
-                point[1] = aVertex[it->vertexNo[i]]   + aTranslation[count];
-                point[2] = aVertex[it->vertexNo[i+1]] + aTranslation[count];
-                int cnt = 0;
-                for(int k=0; k<3; k++) {
-                    int nowDir = getDirection(point[k], point[(k+1)%3], intersect, position);
-                    cnt += nowDir;
-                }
-                if(cnt == -3 || cnt == 3) {
-                    return (int)(index - aIndex.begin());
-                }
+                point[1]=aObject[idx].vertex[it->vertexNo[i]]+aObject[idx].translation;
+                point[2]=aObject[idx].vertex[it->vertexNo[i+1]]+aObject[idx].translation;
+                int cnt=0;
+                for(int j=0;j<3;j++)cnt=cnt+getDirection(point[j],point[(j+1)%3],intersect,position);
+                if(abs(cnt)==3)return idx;
             }
         }
     }
-
-
     return -1;
 }
 
@@ -83,13 +68,12 @@ void initialize()
     scale=1;
     scaleStep=0.05;
     buttonState=0;
-    selectState=-1;
+    selectedObject=-1;
     camera=Camera();
     mode=KIST_MODE_VIEW;
 }
 
 /**
-@todo
 @date ~2016-05-20
 @brief Load object file.
 @par Parameters
@@ -98,21 +82,11 @@ void initialize()
 */
 void DoLoad()
 {
-    Index nowIndex;
-    nowIndex.start = (int)aFace.size();
-    int baseVertexIndex = (int)(aVertex.size());
-    int baseNormalIndex = (int)(aNormal.size());
-
-    int i;
     const char *ret=tinyfd_openFileDialog(dialogTitle,NULL,1,filterPatterns,filterDescription,0);
     if(ret==NULL)return;
-    for(i=(int)strlen(ret)-1;i>=0;--i)if(ret[i]=='/'||ret[i]=='\\')break;
-    strcpy(file,ret+i+1);
     FILE*fp=fopen(ret,"r");
     if(fp==NULL)return;
-//    aVertex.clear();
-//    aFace.clear();
-    size=0;
+    aObject.push_back(Object());
     while(!feof(fp))
     {
         char line[1024];
@@ -121,25 +95,29 @@ void DoLoad()
         {
             Vector3 v;
             sscanf(line+2,"%f%f%f",&v.x,&v.y,&v.z);
-            aVertex.push_back(v);
-            if(v.getNorm()>size)size=v.getNorm();
+            aObject.back().vertex.push_back(v);
+            if(v.getNorm()>size)
+            {
+                size=v.getNorm();
+                lightPosition[2]=-size;
+            }
         }
         else if(!strncmp(line,"vn ",3))
         {
             Vector3 v;
             sscanf(line+2,"%f%f%f",&v.x,&v.y,&v.z);
-            aNormal.push_back(-v);
+            aObject.back().normal.push_back(-v);
         }
         else if(!strncmp(line,"f ",2))
         {
             int t;
             Vector3 n;
-            aFace.push_back(Face());
+            aObject.back().face.push_back(Face());
             char *pt=line+2;
             while(1)
             {
                 sscanf(pt,"%d",&t);
-                aFace.back().vertexNo.push_back(t + baseVertexIndex);
+                aObject.back().face.back().vertexNo.push_back(t);
                 if(strstr(pt,"/"))
                 {
                     pt=strstr(pt,"/")+1;
@@ -147,26 +125,24 @@ void DoLoad()
                     {
                         pt=strstr(pt,"/")+1;
                         sscanf(pt,"%d",&t);
-                        n=aNormal[t-1 + baseNormalIndex];
+                        n=aObject.back().normal[t-1];
                     }
                 }
-                aFace.back().normal.push_back(n);
+                aObject.back().face.back().normal.push_back(n);
                 if(strstr(pt," "))pt=strstr(pt," ")+1;
                 else break;
-                for(i='0';i<='9';++i)
+                char ch;
+                for(ch='0';ch<='9';++ch)
                 {
                     char digit[2];
-                    digit[0]=i;
+                    digit[0]=ch;
                     digit[1]=0;
                     if(strstr(pt,digit))break;
                 }
-                if(i>'9')break;
+                if(ch>'9')break;
             }
         }
     }
-    nowIndex.end = (int)aFace.size() - 1;
-    aIndex.push_back(nowIndex);
-    aTranslation.push_back(Vector3(0,0,0));
     fclose(fp);
 }
 
@@ -210,14 +186,12 @@ void DoDisplayInit()
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POLYGON_SMOOTH);
-
     glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
     glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
     glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
@@ -252,13 +226,6 @@ void DoDisplayMatrix()
 */
 void DoDisplayLight()
 {
-    GLfloat lightAmbient[]={0.3,0.3,0.3,1};
-    GLfloat lightDiffuse[]={0.6,0.6,0.6,1};
-    GLfloat lightSpecular[]={1,1,1,1};
-    GLfloat lightPosition[]={0,0,-size,0};
-    GLfloat materialAmbient[]={0.4,0.4,0.4,1};
-    GLfloat materialSpecular[]={1,1,1,1};
-
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_AMBIENT,lightAmbient);
@@ -274,6 +241,7 @@ void DoDisplayLight()
 }
 
 /**
+@todo Refactoring
 @date ~2016-05-20
 @brief Show grid in display.
 @par Parameters
@@ -297,47 +265,40 @@ void DoDisplayGrid()
             glVertex3f(i,j,-10);
         }
     }
-
     glEnd();
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 }
 
 /**
-@todo
+@date ~2016-05-20
+@brief Show objects in display.
+@par Parameters
+    None
+@return None
 */
 void DoDisplayObject()
 {
     glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
-    for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
+    for(unsigned int idx=0;idx<aObject.size();++idx)
     {
-        int count = (int)(index - aIndex.begin());
-        vector<Face>::iterator startIndex = aFace.begin() + index->start;
-        vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
-
-        if(count==selectState)glColor3f(0,1,1);
+        if(selectedObject==(int)idx)glColor3f(0,1,1);
         else glColor3f(1,1,1);
-
-        for(vector<Face>::iterator it=startIndex; it!=endIndex; ++it)
+        for(unsigned int i=0;i<aObject[idx].face.size();++i)
         {
-        glBegin(GL_POLYGON);
-        if(it->vertexNo.size()<3)continue;
-            for(unsigned int i=0;i<it->vertexNo.size();++i)
+            Face &face=aObject[idx].face.at(i);
+            if(face.vertexNo.size()<3)continue;
+            glBegin(GL_POLYGON);
+            for(unsigned int i=0;i<face.vertexNo.size();++i)
             {
-                if(it->normal[i].x==0&&it->normal[i].y==0&&it->normal[i].z==0)
+                if(face.normal[i].x==0&&face.normal[i].y==0&&face.normal[i].z==0)
                 {
-                    Vector3 ba=aVertex[it->vertexNo[1]-1]-aVertex[it->vertexNo[0]-1];
-                    Vector3 ca=aVertex[it->vertexNo[2]-1]-aVertex[it->vertexNo[0]-1];
-                    Vector3 n(ca.y*ba.z-ba.y*ca.z,ca.z*ba.x-ba.z*ca.x,ca.x*ba.y-ba.x*ca.y);
-                    it->normal[i]=n;
+                    Vector3 ba=aObject[idx].vertex[face.vertexNo[1]-1]-aObject[idx].vertex[face.vertexNo[0]-1];
+                    Vector3 ca=aObject[idx].vertex[face.vertexNo[2]-1]-aObject[idx].vertex[face.vertexNo[0]-1];
+                    face.normal[i]=Vector3(ca.y*ba.z-ba.y*ca.z,ca.z*ba.x-ba.z*ca.x,ca.x*ba.y-ba.x*ca.y);
                 }
-                Vector3 n2(-it->normal[i].x*projectionMatrix[0]-it->normal[i].y*projectionMatrix[4]-it->normal[i].z*projectionMatrix[8]
-                           ,-it->normal[i].x*projectionMatrix[1]-it->normal[i].y*projectionMatrix[5]-it->normal[i].z*projectionMatrix[9]
-                           ,-it->normal[i].x*projectionMatrix[2]-it->normal[i].y*projectionMatrix[6]-it->normal[i].z*projectionMatrix[10]);
-                n2=n2/n2.getNorm();
-                glNormal3f(n2.x,n2.y,n2.z);
-                Vector3 change = aVertex[it->vertexNo[i]-1] + aTranslation[count];
-                glVertex3fv(change);
+                glNormal3fv(Vector3(-face.normal[i].x*projectionMatrix[0]-face.normal[i].y*projectionMatrix[4]-face.normal[i].z*projectionMatrix[8],-face.normal[i].x*projectionMatrix[1]-face.normal[i].y*projectionMatrix[5]-face.normal[i].z*projectionMatrix[9],-face.normal[i].x*projectionMatrix[2]-face.normal[i].y*projectionMatrix[6]-face.normal[i].z*projectionMatrix[10]).getUnitVector());
+                glVertex3fv(aObject[idx].vertex[face.vertexNo[i]-1]+aObject[idx].translation);
             }
             glEnd();
         }
@@ -345,7 +306,7 @@ void DoDisplayObject()
 }
 
 /**
-@todo
+@todo Refactoring, Documentation
 */
 void DoDisplayLaser()
 {
@@ -392,6 +353,8 @@ void DoDisplayString(GLfloat x,GLfloat y,GLfloat z,const char *string)
 /**
 @date ~2016-05-20
 @brief Executed in glDisplayFunc().
+@par Parameters
+    None
 @return None
 */
 void DoDisplay()
@@ -425,7 +388,7 @@ void DoReshape(int w,int h)
 }
 
 /**
-@todo
+@todo Refactoring
 @date ~2016-05-20
 @brief Executed in glMouseFunc().
 @param [in] button Pressed mouse button
@@ -443,7 +406,6 @@ void DoMouse(int button,int state,int x,int y)
         {
         case KIST_MOUSE_LEFT:
             {
-
             buttonState=buttonState|button;
             prvX=x;
             prvY=y;
@@ -451,9 +413,9 @@ void DoMouse(int button,int state,int x,int y)
             float newY = (prvY - (float)WindowHeight/2) / (WindowHeight/2);
             Vector3 direction = camera.xAxis * newX - camera.yAxis * newY + camera.normal;
 #ifdef _DEBUG
-            printf("[%d %d -> %d]\n", x, y, selectState);
+            printf("[%d %d -> %d]\n", x, y, selectedObject);
 #endif
-            selectState = SelectModel(direction, camera.position);
+            selectedObject = SelectObject(direction, camera.position);
             glutPostRedisplay();
             break;
             }
@@ -486,7 +448,7 @@ void DoMouse(int button,int state,int x,int y)
 }
 
 /**
-@todo
+@todo Refactoring, Documentation
 */
 void DoMouseMove(int x,int y)
 {
@@ -494,7 +456,7 @@ void DoMouseMove(int x,int y)
     {
         case KIST_MOUSE_LEFT:
         {
-            if(selectState == -1) break;
+            if(selectedObject == -1) break;
 
             float newX = (float)(x-prvX) / (WindowWidth /2)*2;
             float newY = (float)(y-prvY) / (WindowHeight/2)*2;
@@ -502,8 +464,7 @@ void DoMouseMove(int x,int y)
             Vector3 nowTranslation = Vector3(0,0,0);
             nowTranslation = nowTranslation + camera.xAxis * newX;
             nowTranslation = nowTranslation - camera.yAxis * newY;
-
-            aTranslation[selectState] = aTranslation[selectState] + nowTranslation;
+            aObject[selectedObject].translation=aObject[selectedObject].translation+nowTranslation;
             break;
         }
     case KIST_MOUSE_RIGHT:
@@ -526,7 +487,7 @@ void DoMouseMove(int x,int y)
 }
 
 /**
-@todo
+@todo Refactoring, Documentation
 */
 void DoMousePassiveMove(int x,int y)
 {

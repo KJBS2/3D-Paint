@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['normal',['normal',['../struct_camera.html#ae22c2de1eee22264314d9260988a8f74',1,'Camera::normal()'],['../struct_face.html#aec0a1df8544962cfa4480b89d26cb261',1,'Face::normal()']]]
+  ['main',['main',['../main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.cpp']]],
+  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
+  ['main_2eh',['main.h',['../main_8h.html',1,'']]],
+  ['materialambient',['materialAmbient',['../main_8h.html#a688306f23fec83a605146720b3290eca',1,'main.h']]],
+  ['materialspecular',['materialSpecular',['../main_8h.html#a7c656e0f0978439b129987a6fd7f5e6d',1,'main.h']]],
+  ['mode',['mode',['../main_8cpp.html#a1ea5d0cb93f22f7d0fdf804bd68c3326',1,'main.cpp']]]
 ];

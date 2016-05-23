@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['y',['y',['../struct_vector3.html#a0b88fda13a0c8fcbbc4998511e636b81',1,'Vector3']]],
-  ['yaxis',['yAxis',['../struct_camera.html#aafd34b1af7b40aa56b7f8ddf8d2c43e9',1,'Camera']]]
+  ['x',['x',['../struct_vector3.html#a03966655cdddc7bc14a7487017e81eff',1,'Vector3']]],
+  ['xaxis',['xAxis',['../struct_camera.html#ab83b27928970e5e1e05f87e312bececc',1,'Camera']]]
 ];

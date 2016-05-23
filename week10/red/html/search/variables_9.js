@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['position',['position',['../struct_camera.html#aa3886b557c26f4d36a30d31ba38de1ea',1,'Camera']]],
-  ['projectionmatrix',['projectionMatrix',['../main_8cpp.html#a34ea9ce4b2d8cea7b52b3295435f5ef7',1,'main.cpp']]],
-  ['prvx',['prvX',['../main_8cpp.html#a4b0a6df44ed133f4c23c3e30dfaa6ded',1,'main.cpp']]],
-  ['prvy',['prvY',['../main_8cpp.html#ae85561ad4efe9309ac8981c0413c6eda',1,'main.cpp']]]
+  ['normal',['normal',['../struct_camera.html#ae22c2de1eee22264314d9260988a8f74',1,'Camera::normal()'],['../struct_face.html#aec0a1df8544962cfa4480b89d26cb261',1,'Face::normal()'],['../struct_object.html#a63deba9ee0057bd33e8090de37f81942',1,'Object::normal()']]]
 ];

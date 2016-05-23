@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['translationstep',['translationStep',['../main_8cpp.html#aec211f594f48a6ad8744c18956149ff0',1,'main.cpp']]],
-  ['translationx',['translationX',['../main_8cpp.html#ab8c4f669a6268bc69bb457715d0bc97b',1,'main.cpp']]],
-  ['translationy',['translationY',['../main_8cpp.html#a9dc901077177b5c0ffc746e33f21fef4',1,'main.cpp']]],
-  ['translationz',['translationZ',['../main_8cpp.html#a98ae3e720ee0aa7e7f2a180142263533',1,'main.cpp']]],
-  ['twist',['twist',['../struct_camera.html#a37f3e92327dea0282fe88a589f5d6f39',1,'Camera::twist()'],['../main_8cpp.html#a8c303c139ac244d99b239e7fb1c30074',1,'twist():&#160;main.cpp']]]
+  ['scale',['scale',['../main_8cpp.html#adffed1bde9b5282c90c7ac8c5fa5a0f1',1,'main.cpp']]],
+  ['scalestep',['scaleStep',['../main_8cpp.html#a25321d61aa9013ff52b68fef92e1cf3a',1,'main.cpp']]],
+  ['selectedobject',['selectedObject',['../main_8cpp.html#a02ea758772550b29a22a51b09df4bf4d',1,'main.cpp']]],
+  ['showgrid',['showGrid',['../main_8cpp.html#aaf27ea150d56925103a2aa318978f286',1,'main.cpp']]],
+  ['size',['size',['../main_8cpp.html#aa62898609f0760aca2322dbd3fe44be0',1,'main.cpp']]]
 ];
