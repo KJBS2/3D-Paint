@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,7 +32,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">3D-Paint
+   &#160;<span id="projectnumber">Constructed on May 23 16:18</span>
    </div>
+   <div id="projectbrief">week10/red</div>
   </td>
  </tr>
  </tbody>
@@ -65,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('main_8h.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -79,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -130,8 +154,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_face.html">Face</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D object face structure  <a href="struct_face.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_index.html">Index</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D object index structure  <a href="struct_index.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html">Object</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D object structure  <a href="struct_object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -166,12 +190,15 @@ Functions</h2></td></tr>
 <tr class="memitem:af9a5011ed00adb2e842cfd0a67e02865"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#af9a5011ed00adb2e842cfd0a67e02865">glVertex3fv</a> (<a class="el" href="struct_vector3.html">Vector3</a> v)</td></tr>
 <tr class="memdesc:af9a5011ed00adb2e842cfd0a67e02865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call glVertex3f() for given vector.  <a href="#af9a5011ed00adb2e842cfd0a67e02865">More...</a><br /></td></tr>
 <tr class="separator:af9a5011ed00adb2e842cfd0a67e02865"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a842c2b424ba4958f83723505732dd36b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a842c2b424ba4958f83723505732dd36b">gluLookAt</a> (<a class="el" href="struct_vector3.html">Vector3</a> eye, <a class="el" href="struct_vector3.html">Vector3</a> center, <a class="el" href="struct_vector3.html">Vector3</a> up)</td></tr>
-<tr class="memdesc:a842c2b424ba4958f83723505732dd36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call <a class="el" href="main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. ">gluLookAt()</a> for given vectors.  <a href="#a842c2b424ba4958f83723505732dd36b">More...</a><br /></td></tr>
-<tr class="separator:a842c2b424ba4958f83723505732dd36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75cd71f7d2e8d04efcdd7f76a9f67b76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a75cd71f7d2e8d04efcdd7f76a9f67b76">glNormal3fv</a> (<a class="el" href="struct_vector3.html">Vector3</a> v)</td></tr>
+<tr class="memdesc:a75cd71f7d2e8d04efcdd7f76a9f67b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call glNormal3f() for given vector.  <a href="#a75cd71f7d2e8d04efcdd7f76a9f67b76">More...</a><br /></td></tr>
+<tr class="separator:a75cd71f7d2e8d04efcdd7f76a9f67b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b2b7b29397c041bb368709d276350c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a2b2b7b29397c041bb368709d276350c5">glText</a> (GLfloat x, GLfloat y, GLfloat z, const char *string)</td></tr>
 <tr class="memdesc:a2b2b7b29397c041bb368709d276350c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print text to given coordinate.  <a href="#a2b2b7b29397c041bb368709d276350c5">More...</a><br /></td></tr>
 <tr class="separator:a2b2b7b29397c041bb368709d276350c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a842c2b424ba4958f83723505732dd36b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a842c2b424ba4958f83723505732dd36b">gluLookAt</a> (<a class="el" href="struct_vector3.html">Vector3</a> eye, <a class="el" href="struct_vector3.html">Vector3</a> center, <a class="el" href="struct_vector3.html">Vector3</a> up)</td></tr>
+<tr class="memdesc:a842c2b424ba4958f83723505732dd36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call <a class="el" href="main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. ">gluLookAt()</a> for given vectors.  <a href="#a842c2b424ba4958f83723505732dd36b">More...</a><br /></td></tr>
+<tr class="separator:a842c2b424ba4958f83723505732dd36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41856fddce2fd08db39f2edd828b9aca"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a41856fddce2fd08db39f2edd828b9aca">dotProduct</a> (<a class="el" href="struct_vector3.html">Vector3</a> a, <a class="el" href="struct_vector3.html">Vector3</a> b)</td></tr>
 <tr class="memdesc:a41856fddce2fd08db39f2edd828b9aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a dot product value within to vectors.  <a href="#a41856fddce2fd08db39f2edd828b9aca">More...</a><br /></td></tr>
 <tr class="separator:a41856fddce2fd08db39f2edd828b9aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,6 +220,18 @@ Variables</h2></td></tr>
 <tr class="memitem:a0d8d6e2a6ae48f467747d8b4f5013a17"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a0d8d6e2a6ae48f467747d8b4f5013a17">WindowHeight</a> =600</td></tr>
 <tr class="memdesc:a0d8d6e2a6ae48f467747d8b4f5013a17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main window height.  <a href="#a0d8d6e2a6ae48f467747d8b4f5013a17">More...</a><br /></td></tr>
 <tr class="separator:a0d8d6e2a6ae48f467747d8b4f5013a17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a50cc1d690a8c415c071475d4b90f75"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a4a50cc1d690a8c415c071475d4b90f75">lightAmbient</a> [] ={0.3,0.3,0.3,1}</td></tr>
+<tr class="separator:a4a50cc1d690a8c415c071475d4b90f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9ef060359c65ea179531e9be762c73a"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#ad9ef060359c65ea179531e9be762c73a">lightDiffuse</a> [] ={0.6,0.6,0.6,1}</td></tr>
+<tr class="separator:ad9ef060359c65ea179531e9be762c73a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a798d958a36686dc070755812cb2ae"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a65a798d958a36686dc070755812cb2ae">lightSpecular</a> [] ={1,1,1,1}</td></tr>
+<tr class="separator:a65a798d958a36686dc070755812cb2ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abce1b4d524993b88aca06e26d9cc5e73"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#abce1b4d524993b88aca06e26d9cc5e73">lightPosition</a> [] ={0,0,0,0}</td></tr>
+<tr class="separator:abce1b4d524993b88aca06e26d9cc5e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a688306f23fec83a605146720b3290eca"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a688306f23fec83a605146720b3290eca">materialAmbient</a> [] ={0.4,0.4,0.4,1}</td></tr>
+<tr class="separator:a688306f23fec83a605146720b3290eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c656e0f0978439b129987a6fd7f5e6d"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#a7c656e0f0978439b129987a6fd7f5e6d">materialSpecular</a> [] ={1,1,1,1}</td></tr>
+<tr class="separator:a7c656e0f0978439b129987a6fd7f5e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaaae64b33cb4771a567c758189d44e4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8h.html#aeaaae64b33cb4771a567c758189d44e4">dialogTitle</a> =&quot;Load&quot;</td></tr>
 <tr class="memdesc:aeaaae64b33cb4771a567c758189d44e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load dialog title.  <a href="#aeaaae64b33cb4771a567c758189d44e4">More...</a><br /></td></tr>
 <tr class="separator:aeaaae64b33cb4771a567c758189d44e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -364,20 +403,20 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Cross product value </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00387">387</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00420">420</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="main_8h_a6bb33ec123af13a87b25cfe908186538_icgraph.png" border="0" usemap="#main_8h_a6bb33ec123af13a87b25cfe908186538_icgraph" alt=""/></div>
 <map name="main_8h_a6bb33ec123af13a87b25cfe908186538_icgraph" id="main_8h_a6bb33ec123af13a87b25cfe908186538_icgraph">
-<area shape="rect" id="node2" href="main_8cpp.html#a757e9d797b2f85134976c888e8b2419a" title="SelectModel" alt="" coords="291,5,385,32"/>
-<area shape="rect" id="node5" href="main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="291,81,385,108"/>
+<area shape="rect" id="node2" href="main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856" title="Select an object. " alt="" coords="291,5,388,32"/>
+<area shape="rect" id="node5" href="main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="293,81,386,108"/>
 <area shape="rect" id="node8" href="main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="152,31,243,57"/>
-<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="471,5,548,32"/>
-<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="633,56,684,83"/>
-<area shape="rect" id="node6" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="456,56,563,83"/>
-<area shape="rect" id="node7" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="433,107,585,133"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="473,5,551,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="636,56,687,83"/>
+<area shape="rect" id="node6" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="459,56,565,83"/>
+<area shape="rect" id="node7" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="436,107,588,133"/>
 </map>
 </div>
 </p>
@@ -419,20 +458,20 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Dot product value </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00375">375</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00408">408</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="main_8h_a41856fddce2fd08db39f2edd828b9aca_icgraph.png" border="0" usemap="#main_8h_a41856fddce2fd08db39f2edd828b9aca_icgraph" alt=""/></div>
 <map name="main_8h_a41856fddce2fd08db39f2edd828b9aca_icgraph" id="main_8h_a41856fddce2fd08db39f2edd828b9aca_icgraph">
-<area shape="rect" id="node2" href="main_8cpp.html#a757e9d797b2f85134976c888e8b2419a" title="SelectModel" alt="" coords="277,5,372,32"/>
-<area shape="rect" id="node5" href="main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="278,81,371,108"/>
+<area shape="rect" id="node2" href="main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856" title="Select an object. " alt="" coords="277,5,375,32"/>
+<area shape="rect" id="node5" href="main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="279,81,373,108"/>
 <area shape="rect" id="node8" href="main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="139,31,229,57"/>
-<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="457,5,535,32"/>
-<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="620,56,671,83"/>
-<area shape="rect" id="node6" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="443,56,549,83"/>
-<area shape="rect" id="node7" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="420,107,572,133"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="460,5,537,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="623,56,673,83"/>
+<area shape="rect" id="node6" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="445,56,552,83"/>
+<area shape="rect" id="node7" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="423,107,575,133"/>
 </map>
 </div>
 </p>
@@ -495,7 +534,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00424">424</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00457">457</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -513,9 +552,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="main_8h_ace9e9eca2ea828bd05ca95967e7bb199_icgraph.png" border="0" usemap="#main_8h_ace9e9eca2ea828bd05ca95967e7bb199_icgraph" alt=""/></div>
 <map name="main_8h_ace9e9eca2ea828bd05ca95967e7bb199_icgraph" id="main_8h_ace9e9eca2ea828bd05ca95967e7bb199_icgraph">
-<area shape="rect" id="node2" href="main_8cpp.html#a757e9d797b2f85134976c888e8b2419a" title="SelectModel" alt="" coords="144,5,239,32"/>
-<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="287,5,364,32"/>
-<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="412,5,463,32"/>
+<area shape="rect" id="node2" href="main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856" title="Select an object. " alt="" coords="144,5,241,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="289,5,367,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="415,5,465,32"/>
 </map>
 </div>
 </p>
@@ -554,7 +593,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Converted button value </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00315">315</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00337">337</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -563,6 +602,54 @@ Here is the caller graph for this function:</div>
 <map name="main_8h_acced050559d5b91e455c5fabf1b7bb62_icgraph" id="main_8h_acced050559d5b91e455c5fabf1b7bb62_icgraph">
 <area shape="rect" id="node2" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="167,5,244,32"/>
 <area shape="rect" id="node3" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="292,5,343,32"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a75cd71f7d2e8d04efcdd7f76a9f67b76"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glNormal3fv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_vector3.html">Vector3</a>&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Call glNormal3f() for given vector. </p>
+<dl class="section date"><dt>Date</dt><dd>2016-05-23 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>Target vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00367">367</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="main_8h_a75cd71f7d2e8d04efcdd7f76a9f67b76_icgraph.png" border="0" usemap="#main_8h_a75cd71f7d2e8d04efcdd7f76a9f67b76_icgraph" alt=""/></div>
+<map name="main_8h_a75cd71f7d2e8d04efcdd7f76a9f67b76_icgraph" id="main_8h_a75cd71f7d2e8d04efcdd7f76a9f67b76_icgraph">
+<area shape="rect" id="node2" href="main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="Show objects in display. " alt="" coords="141,5,260,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="Executed in glDisplayFunc(). " alt="" coords="308,5,389,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="437,5,488,32"/>
 </map>
 </div>
 </p>
@@ -618,7 +705,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00361">361</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00381">381</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -684,7 +771,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00347">347</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00396">396</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -732,14 +819,14 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00334">334</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00356">356</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="main_8h_af9a5011ed00adb2e842cfd0a67e02865_icgraph.png" border="0" usemap="#main_8h_af9a5011ed00adb2e842cfd0a67e02865_icgraph" alt=""/></div>
 <map name="main_8h_af9a5011ed00adb2e842cfd0a67e02865_icgraph" id="main_8h_af9a5011ed00adb2e842cfd0a67e02865_icgraph">
-<area shape="rect" id="node2" href="main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="DoDisplayObject" alt="" coords="139,5,257,32"/>
+<area shape="rect" id="node2" href="main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="Show objects in display. " alt="" coords="139,5,257,32"/>
 <area shape="rect" id="node5" href="main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f" title="DoDisplayLaser" alt="" coords="141,56,255,83"/>
 <area shape="rect" id="node3" href="main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="Executed in glDisplayFunc(). " alt="" coords="305,31,387,57"/>
 <area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="Start program and call OpenGL functions. " alt="" coords="435,31,485,57"/>
@@ -791,7 +878,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Rotated vector </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00404">404</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00437">437</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -834,7 +921,7 @@ Here is the caller graph for this function:</div>
 <p>Load dialog title. </p>
 <dl class="section date"><dt>Date</dt><dd>~2016-05-20 </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00082">82</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00092">92</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 </div>
 </div>
@@ -851,7 +938,7 @@ Here is the caller graph for this function:</div>
 <p>Load dialog description. </p>
 <dl class="section date"><dt>Date</dt><dd>~2016-05-20 </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00082">82</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00092">92</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 </div>
 </div>
@@ -868,7 +955,92 @@ Here is the caller graph for this function:</div>
 <p>Load dialog pattern. </p>
 <dl class="section date"><dt>Date</dt><dd>~2016-05-20 </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8h_source.html#l00082">82</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+<p>Definition at line <a class="el" href="main_8h_source.html#l00092">92</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4a50cc1d690a8c415c071475d4b90f75"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat lightAmbient[] ={0.3,0.3,0.3,1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd></dd></dl>
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00074">74</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9ef060359c65ea179531e9be762c73a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat lightDiffuse[] ={0.6,0.6,0.6,1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00075">75</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abce1b4d524993b88aca06e26d9cc5e73"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat lightPosition[] ={0,0,0,0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00077">77</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a65a798d958a36686dc070755812cb2ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat lightSpecular[] ={1,1,1,1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00076">76</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a688306f23fec83a605146720b3290eca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat materialAmbient[] ={0.4,0.4,0.4,1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00078">78</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c656e0f0978439b129987a6fd7f5e6d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLfloat materialSpecular[] ={1,1,1,1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8h_source.html#l00079">79</a> of file <a class="el" href="main_8h_source.html">main.h</a>.</p>
 
 </div>
 </div>
@@ -907,11 +1079,15 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="main_8h.html">main.h</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

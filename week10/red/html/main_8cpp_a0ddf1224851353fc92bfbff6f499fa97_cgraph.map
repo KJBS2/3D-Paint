@@ -1,32 +1,33 @@
 <map id="main" name="main">
-<area shape="rect" id="node2" href="$main_8cpp.html#a25a40b6614565f755233080a384c35f1" title="Initialize variables. " alt="" coords="329,75,398,102"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="Executed in glDisplayFunc(). " alt="" coords="139,278,221,305"/>
-<area shape="rect" id="node15" href="$main_8cpp.html#a0e51cc441395159c968b8bc2076126ff" title="Executed in glReshapeFunc(). " alt="" coords="135,379,225,406"/>
-<area shape="rect" id="node16" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="141,329,219,355"/>
-<area shape="rect" id="node22" href="$main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="127,25,233,51"/>
-<area shape="rect" id="node25" href="$main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="104,75,256,102"/>
-<area shape="rect" id="node26" href="$main_8cpp.html#ace664df07b9d50ad066f1d04b11c1e64" title="Executed in glKeyboardFunc(). " alt="" coords="133,177,227,203"/>
-<area shape="rect" id="node28" href="$main_8cpp.html#a6de7f9dc1fec4f45eb531ae9bb3e36c8" title="Executed in glKeyboardUpFunc(). " alt="" coords="125,430,235,457"/>
-<area shape="rect" id="node29" href="$main_8cpp.html#a173ffbbb9beb78db5190116c2828b2c8" title="Executed in glSpecialUpFunc(). " alt="" coords="139,481,221,507"/>
-<area shape="rect" id="node30" href="$main_8cpp.html#a56b777f3fca2d6230dadc06a9bd675a7" title="Executed in glSpecialFunc(). " alt="" coords="131,531,229,558"/>
-<area shape="rect" id="node31" href="$main_8cpp.html#a57fe9e60975310c984b5d2881908074c" title="Executed in glutIdleFunc(). " alt="" coords="151,582,209,609"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#a334e7c00e208a5a69a18a1fc25777a0d" title="Initialize display. " alt="" coords="314,177,413,203"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="Set matrix for display. " alt="" coords="305,430,422,457"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#ac9000e40de01bd2c5a7d6f80a4d8f37d" title="Set light for display. " alt="" coords="309,278,418,305"/>
-<area shape="rect" id="node8" href="$main_8cpp.html#a51693696c95f6f847493872a0f994511" title="Show grid in display. " alt="" coords="311,329,416,355"/>
-<area shape="rect" id="node9" href="$main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="DoDisplayObject" alt="" coords="304,227,423,254"/>
-<area shape="rect" id="node12" href="$main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f" title="DoDisplayLaser" alt="" coords="307,379,420,406"/>
-<area shape="rect" id="node13" href="$main_8cpp.html#a0de21e1e5535fb5ea3900dd3694112f6" title="Show string in display. " alt="" coords="306,481,421,507"/>
-<area shape="rect" id="node6" href="$main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. " alt="" coords="508,379,588,406"/>
-<area shape="rect" id="node10" href="$struct_vector3.html#a1641eed331f1ade1bce9907b108be8a9" title="Get norm value. " alt="" coords="486,151,610,178"/>
-<area shape="rect" id="node11" href="$main_8h.html#af9a5011ed00adb2e842cfd0a67e02865" title="Call glVertex3f() for given vector. " alt="" coords="505,253,591,279"/>
-<area shape="rect" id="node14" href="$main_8h.html#a2b2b7b29397c041bb368709d276350c5" title="Print text to given coordinate. " alt="" coords="519,430,577,457"/>
-<area shape="rect" id="node17" href="$main_8h.html#acced050559d5b91e455c5fabf1b7bb62" title="Convert raw button value to pre&#45;defined macro. " alt="" coords="307,582,420,609"/>
-<area shape="rect" id="node18" href="$main_8cpp.html#a757e9d797b2f85134976c888e8b2419a" title="SelectModel" alt="" coords="316,531,411,558"/>
-<area shape="rect" id="node19" href="$main_8h.html#a6bb33ec123af13a87b25cfe908186538" title="Get a cross product value within two vectors. " alt="" coords="673,481,772,507"/>
-<area shape="rect" id="node20" href="$main_8h.html#a41856fddce2fd08db39f2edd828b9aca" title="Get a dot product value within to vectors. " alt="" coords="680,531,765,558"/>
-<area shape="rect" id="node21" href="$main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="503,531,593,558"/>
-<area shape="rect" id="node23" href="$main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="317,25,410,51"/>
-<area shape="rect" id="node24" href="$struct_vector3.html#ae85eca06438274e143363262c9b08904" title="Get unit vector. " alt="" coords="471,50,625,77"/>
-<area shape="rect" id="node27" href="$main_8cpp.html#a075b8d06fa9f449c92171ddafc489900" title="Load object file. " alt="" coords="330,126,397,153"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#a25a40b6614565f755233080a384c35f1" title="Initialize variables. " alt="" coords="329,8,398,35"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a65655263609ffa76cd8d0e6ecd0a99ca" title="Executed in glDisplayFunc(). " alt="" coords="139,262,221,288"/>
+<area shape="rect" id="node16" href="$main_8cpp.html#a0e51cc441395159c968b8bc2076126ff" title="Executed in glReshapeFunc(). " alt="" coords="135,363,225,390"/>
+<area shape="rect" id="node17" href="$main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d" title="Executed in glMouseFunc(). " alt="" coords="141,312,219,339"/>
+<area shape="rect" id="node23" href="$main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964" title="DoMouseMove" alt="" coords="127,199,233,226"/>
+<area shape="rect" id="node26" href="$main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04" title="DoMousePassiveMove" alt="" coords="104,123,256,150"/>
+<area shape="rect" id="node27" href="$main_8cpp.html#ace664df07b9d50ad066f1d04b11c1e64" title="Executed in glKeyboardFunc(). " alt="" coords="133,59,227,86"/>
+<area shape="rect" id="node29" href="$main_8cpp.html#a6de7f9dc1fec4f45eb531ae9bb3e36c8" title="Executed in glKeyboardUpFunc(). " alt="" coords="125,414,235,440"/>
+<area shape="rect" id="node30" href="$main_8cpp.html#a173ffbbb9beb78db5190116c2828b2c8" title="Executed in glSpecialUpFunc(). " alt="" coords="139,464,221,491"/>
+<area shape="rect" id="node31" href="$main_8cpp.html#a56b777f3fca2d6230dadc06a9bd675a7" title="Executed in glSpecialFunc(). " alt="" coords="131,515,229,542"/>
+<area shape="rect" id="node32" href="$main_8cpp.html#a57fe9e60975310c984b5d2881908074c" title="Executed in glutIdleFunc(). " alt="" coords="151,566,209,592"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a334e7c00e208a5a69a18a1fc25777a0d" title="Initialize display. " alt="" coords="314,312,413,339"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a8aa5c8e19811ae8538f668dc31aa4a21" title="Set matrix for display. " alt="" coords="305,363,422,390"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#ac9000e40de01bd2c5a7d6f80a4d8f37d" title="Set light for display. " alt="" coords="309,414,418,440"/>
+<area shape="rect" id="node8" href="$main_8cpp.html#a51693696c95f6f847493872a0f994511" title="Show grid in display. " alt="" coords="311,464,416,491"/>
+<area shape="rect" id="node9" href="$main_8cpp.html#afd028fe603b77f86a990b34741bf58d2" title="Show objects in display. " alt="" coords="304,211,423,238"/>
+<area shape="rect" id="node13" href="$main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f" title="DoDisplayLaser" alt="" coords="307,262,420,288"/>
+<area shape="rect" id="node14" href="$main_8cpp.html#a0de21e1e5535fb5ea3900dd3694112f6" title="Show string in display. " alt="" coords="306,160,421,187"/>
+<area shape="rect" id="node6" href="$main_8h.html#a842c2b424ba4958f83723505732dd36b" title="Call gluLookAt() for given vectors. " alt="" coords="508,363,588,390"/>
+<area shape="rect" id="node10" href="$main_8h.html#a75cd71f7d2e8d04efcdd7f76a9f67b76" title="Call glNormal3f() for given vector. " alt="" coords="504,262,592,288"/>
+<area shape="rect" id="node11" href="$struct_vector3.html#ae85eca06438274e143363262c9b08904" title="Get unit vector. " alt="" coords="471,211,625,238"/>
+<area shape="rect" id="node12" href="$main_8h.html#af9a5011ed00adb2e842cfd0a67e02865" title="Call glVertex3f() for given vector. " alt="" coords="505,312,591,339"/>
+<area shape="rect" id="node15" href="$main_8h.html#a2b2b7b29397c041bb368709d276350c5" title="Print text to given coordinate. " alt="" coords="519,160,577,187"/>
+<area shape="rect" id="node18" href="$main_8h.html#acced050559d5b91e455c5fabf1b7bb62" title="Convert raw button value to pre&#45;defined macro. " alt="" coords="307,566,420,592"/>
+<area shape="rect" id="node19" href="$main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856" title="Select an object. " alt="" coords="315,515,412,542"/>
+<area shape="rect" id="node20" href="$main_8h.html#a6bb33ec123af13a87b25cfe908186538" title="Get a cross product value within two vectors. " alt="" coords="673,464,772,491"/>
+<area shape="rect" id="node21" href="$main_8h.html#a41856fddce2fd08db39f2edd828b9aca" title="Get a dot product value within to vectors. " alt="" coords="680,414,765,440"/>
+<area shape="rect" id="node22" href="$main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="503,464,593,491"/>
+<area shape="rect" id="node24" href="$main_8h.html#ab8acd2c2a58dec32d0efba00a455be24" title="Rotate a vector from target around axis about given angle. " alt="" coords="317,110,410,136"/>
+<area shape="rect" id="node25" href="$struct_vector3.html#a1641eed331f1ade1bce9907b108be8a9" title="Get norm value. " alt="" coords="486,8,610,35"/>
+<area shape="rect" id="node28" href="$main_8cpp.html#a075b8d06fa9f449c92171ddafc489900" title="Load object file. " alt="" coords="330,59,397,86"/>
 </map>

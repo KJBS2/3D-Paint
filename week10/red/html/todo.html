@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,7 +32,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">3D-Paint
+   &#160;<span id="projectnumber">Constructed on May 23 16:18</span>
    </div>
+   <div id="projectbrief">week10/red</div>
   </td>
  </tr>
  </tbody>
@@ -59,6 +69,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('todo.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -73,36 +98,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">Todo List </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f">DoDisplayLaser</a>  ()</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="main_8cpp.html#afd028fe603b77f86a990b34741bf58d2">DoDisplayObject</a>  ()</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="main_8cpp.html#a075b8d06fa9f449c92171ddafc489900">DoLoad</a>  ()</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d">DoMouse</a>  (int button, int state, int x, int y)</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964">DoMouseMove</a>  (int x, int y)</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04">DoMousePassiveMove</a>  (int x, int y)</dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="main_8cpp.html#a0e51cc441395159c968b8bc2076126ff">DoReshape</a>  (int w, int h)</dt>
+<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="main_8cpp.html#a51693696c95f6f847493872a0f994511">DoDisplayGrid</a>  ()</dt>
+<dd>Refactoring  </dd>
+<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="main_8cpp.html#acbb5edf6cdf837fee14e1e2eecbef75f">DoDisplayLaser</a>  ()</dt>
+<dd>Refactoring, Documentation  </dd>
+<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="main_8cpp.html#ab5df29f62217e98936ed22c1706ac55d">DoMouse</a>  (int button, int state, int x, int y)</dt>
+<dd>Refactoring  </dd>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="main_8cpp.html#a799cf5fe912bf04a6586e6d0d60f8964">DoMouseMove</a>  (int x, int y)</dt>
+<dd>Refactoring, Documentation  </dd>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="main_8cpp.html#a3f9404f4606c4861a0b3501bf26a6b04">DoMousePassiveMove</a>  (int x, int y)</dt>
+<dd>Refactoring, Documentation  </dd>
+<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="main_8cpp.html#a0e51cc441395159c968b8bc2076126ff">DoReshape</a>  (int w, int h)</dt>
 <dd>Realization  </dd>
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="main_8cpp.html#a757e9d797b2f85134976c888e8b2419a">SelectModel</a>  (<a class="el" href="struct_vector3.html" title="3D vector structure ">Vector3</a> direction, <a class="el" href="struct_vector3.html" title="3D vector structure ">Vector3</a> position)</dt>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="main_8h.html#a4a50cc1d690a8c415c071475d4b90f75">lightAmbient</a>  []</dt>
 <dd></dd>
 </dl>
 </div></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

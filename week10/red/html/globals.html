@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,7 +32,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">3D-Paint
+   &#160;<span id="projectnumber">Constructed on May 23 16:18</span>
    </div>
+   <div id="projectbrief">week10/red</div>
   </td>
  </tr>
  </tbody>
@@ -83,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
@@ -92,6 +103,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -110,23 +135,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all file members with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>aFace
-: <a class="el" href="main_8cpp.html#a5c900e5eaf66ffd921dcf2e7fd9cbb3d">main.cpp</a>
-</li>
-<li>aIndex
-: <a class="el" href="main_8cpp.html#adb0a378d51441afed9d215f2cefc7f06">main.cpp</a>
-</li>
 <li>angleStep
 : <a class="el" href="main_8cpp.html#af7a64874c0b97cc8bfce9d835087d2bb">main.cpp</a>
 </li>
-<li>aNormal
-: <a class="el" href="main_8cpp.html#afcb01c3c2288f3030d86177252ae1864">main.cpp</a>
-</li>
-<li>aTranslation
-: <a class="el" href="main_8cpp.html#a7514b7cd720fa69c9382b516b8fc7550">main.cpp</a>
-</li>
-<li>aVertex
-: <a class="el" href="main_8cpp.html#a3573a33c4b3d91098d1757cc86fd39cc">main.cpp</a>
+<li>aObject
+: <a class="el" href="main_8cpp.html#a6f8ccd36f5a30c34382855e708d11af5">main.cpp</a>
 </li>
 </ul>
 
@@ -216,9 +229,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
-<li>file
-: <a class="el" href="main_8cpp.html#ac639f54935d0db2b58545c53907db37d">main.cpp</a>
-</li>
 <li>filterDescription
 : <a class="el" href="main_8h.html#a2b8881a9433bf761f9809f1c55d53b74">main.h</a>
 </li>
@@ -235,6 +245,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>glConvertButton()
 : <a class="el" href="main_8h.html#acced050559d5b91e455c5fabf1b7bb62">main.h</a>
 </li>
+<li>glNormal3fv()
+: <a class="el" href="main_8h.html#a75cd71f7d2e8d04efcdd7f76a9f67b76">main.h</a>
+</li>
 <li>glText()
 : <a class="el" href="main_8h.html#a2b2b7b29397c041bb368709d276350c5">main.h</a>
 </li>
@@ -248,9 +261,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
-<li>info
-: <a class="el" href="main_8cpp.html#acc7b8d95d67c57758d5b3b6889c6c95a">main.cpp</a>
-</li>
 <li>initialize()
 : <a class="el" href="main_8cpp.html#a25a40b6614565f755233080a384c35f1">main.cpp</a>
 </li>
@@ -285,9 +295,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
+<li>lightAmbient
+: <a class="el" href="main_8h.html#a4a50cc1d690a8c415c071475d4b90f75">main.h</a>
+</li>
+<li>lightDiffuse
+: <a class="el" href="main_8h.html#ad9ef060359c65ea179531e9be762c73a">main.h</a>
+</li>
+<li>lightPosition
+: <a class="el" href="main_8h.html#abce1b4d524993b88aca06e26d9cc5e73">main.h</a>
+</li>
+<li>lightSpecular
+: <a class="el" href="main_8h.html#a65a798d958a36686dc070755812cb2ae">main.h</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
 <li>main()
 : <a class="el" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main.cpp</a>
+</li>
+<li>materialAmbient
+: <a class="el" href="main_8h.html#a688306f23fec83a605146720b3290eca">main.h</a>
+</li>
+<li>materialSpecular
+: <a class="el" href="main_8h.html#a7c656e0f0978439b129987a6fd7f5e6d">main.h</a>
 </li>
 <li>mode
 : <a class="el" href="main_8cpp.html#a1ea5d0cb93f22f7d0fdf804bd68c3326">main.cpp</a>
@@ -322,11 +354,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>scaleStep
 : <a class="el" href="main_8cpp.html#a25321d61aa9013ff52b68fef92e1cf3a">main.cpp</a>
 </li>
-<li>SelectModel()
-: <a class="el" href="main_8cpp.html#a757e9d797b2f85134976c888e8b2419a">main.cpp</a>
+<li>selectedObject
+: <a class="el" href="main_8cpp.html#a02ea758772550b29a22a51b09df4bf4d">main.cpp</a>
 </li>
-<li>selectState
-: <a class="el" href="main_8cpp.html#a10d55925c47dff76aea176e90ef37b1a">main.cpp</a>
+<li>SelectObject()
+: <a class="el" href="main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856">main.cpp</a>
 </li>
 <li>showGrid
 : <a class="el" href="main_8cpp.html#aaf27ea150d56925103a2aa318978f286">main.cpp</a>
@@ -365,11 +397,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>
