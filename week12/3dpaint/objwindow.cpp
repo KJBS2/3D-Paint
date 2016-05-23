@@ -1,4 +1,5 @@
 #include "objwindow.h"
+#include<string.h>
 #include<QFile>
 #include<QString>
 #include<QGLWidget>
@@ -7,6 +8,14 @@
 
 ObjWindow::ObjWindow(QString _file,QWidget *parent) : QGLWidget(parent)
 {
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(idleFunc()));
+    timer->start(10);
+
+
+    memset(isKey,0,sizeof(isKey));
+
+
     file=_file;
     aVertex.clear();
     aNormal.clear();
@@ -182,4 +191,29 @@ void ObjWindow::paintGL() {
     doDisplayLightOn();
     doDisplaySample();
     glFlush();
+}
+
+
+void ObjWindow::idleFunc()
+{
+
+    if(isKey[Qt::Key_A])
+        Camera.position = Camera.position - Camera.xAxis *(float)0.05;
+    if(isKey[Qt::Key_D])
+        Camera.position = Camera.position + Camera.xAxis *(float)0.05;
+    if(isKey[Qt::Key_S])
+        Camera.position = Camera.position - Camera.normal*(float)0.05;
+    if(isKey[Qt::Key_W])
+        Camera.position = Camera.position + Camera.normal*(float)0.05;
+
+    this->repaint();
+}
+
+
+void ObjWindow::inputKey(QKeyEvent* key){
+    isKey[key->key()]=1;
+}
+
+void ObjWindow::releaseKey(QKeyEvent* key){
+    isKey[key->key()]=0;
 }
