@@ -1,5 +1,0 @@
-<map id="SelectModel" name="SelectModel">
-<area shape="rect" id="node2" href="$main_8h.html#a6bb33ec123af13a87b25cfe908186538" title="Get a cross product value within two vectors. " alt="" coords="287,5,385,32"/>
-<area shape="rect" id="node3" href="$main_8h.html#a41856fddce2fd08db39f2edd828b9aca" title="Get a dot product value within to vectors. " alt="" coords="293,68,379,95"/>
-<area shape="rect" id="node4" href="$main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="148,31,239,57"/>
-</map>
