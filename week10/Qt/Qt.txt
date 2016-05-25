@@ -1,0 +1,30 @@
+Qt User Interface 종류 2가지
+1. Qt Quick (QML), javascript
+2. Qt Widget, c++
+
+
+
+*필수
+Qt Notepad example
+http://doc.qt.io/qt-5/gettingstartedqt.html
+
+UML
+http://doc.qt.io/qtcreator/creator-modeling.html
+
+Widgets
+http://doc.qt.io/qt-5/qtwidgets-index.html
+
+*필수
+Deployment
+http://stackoverflow.com/questions/621262/how-to-run-a-qt-application
+
+"
+
+  I'm assuming you are running windows since you mention an .exe file extension.
+  Look in the debug and/or release subdirectories of your project to find the produced binary.
+  You can double-click on it to run the application. However, there are several DLL's that will be required.
+  So, make sure they are in your PATH or copy them in the same directory.
+  Dependency Walker is useful for finding out what you need.
+
+"
+

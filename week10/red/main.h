@@ -1,18 +1,22 @@
+/**
+@file main.h
+@date ~2016-05-20
+@brief Main header file
+*/
+
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#include<map>
 #include<vector>
-using namespace std;
-
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
-#include<map>
 #include"tinyfiledialogs.h"
 
 #ifdef __APPLE__
-#include <ApplicationServices/ApplicationServices.h>
+#include<ApplicationServices/ApplicationServices.h>
 #include<GLUT/glut.h>
 #else
 #include<GL/glut.h>
@@ -20,41 +24,101 @@ using namespace std;
 
 using namespace std;
 
-#define KIST_CAMERA_MODE 0
-#define KIST_SELECT_MODE 1
+/**
+@def KIST_MODE_VIEW
+@date ~2016-05-20
+@brief Mode: view
+@def KIST_MODE_SELECT
+@date ~2016-05-20
+@brief Mode: select
+*/
+#define KIST_MODE_VIEW      0
+#define KIST_MODE_SELECT    1
 
-#define KIST_LEFT_BUTTON    0x0010
-#define KIST_RIGHT_BUTTON   0x0020
-#define KIST_BOTH_BUTTON    0x0030
-#define KIST_SCROLL_UP      0x0003
-#define KIST_SCROLL_DOWN    0x0004
+/**
+@def KIST_MOUSE_LEFT
+@date ~2016-05-20
+@brief Mouse: left
+@def KIST_MOUSE_RIGHT
+@date ~2016-05-20
+@brief Mouse: right
+@def KIST_MOUSE_BOTH
+@date ~2016-05-20
+@brief Mouse: both
+@def KIST_MOUSE_SCROLLUP
+@date ~2016-05-20
+@brief Mouse: scroll up
+@def KIST_MOUSE_SCROLLDOWN
+@date ~2016-05-20
+@brief Mouse: scroll down
+*/
+#define KIST_MOUSE_LEFT         0x0010
+#define KIST_MOUSE_RIGHT        0x0020
+#define KIST_MOUSE_BOTH         0x0030
+#define KIST_MOUSE_SCROLLUP     0x0003
+#define KIST_MOUSE_SCROLLDOWN   0x0004
 
-const int WindowWidth=600;
-const int WindowHeight=600;
+/**
+@var WindowWidth
+@date ~2016-05-20
+@brief Main window width
+@var WindowHeight
+@date ~2016-05-20
+@brief Main window height
+*/
+const int WindowWidth=600,WindowHeight=600;
 
-const char *dialogTitle="Load";
-const char *filterPatterns[]={"*.obj"};
-const char *filterDescription="Object files";
+/**
+@todo
+*/
+GLfloat lightAmbient[]={0.3,0.3,0.3,1};
+GLfloat lightDiffuse[]={0.6,0.6,0.6,1};
+GLfloat lightSpecular[]={1,1,1,1};
+GLfloat lightPosition[]={0,0,0,0};
+GLfloat materialAmbient[]={0.4,0.4,0.4,1};
+GLfloat materialSpecular[]={1,1,1,1};
 
+/**
+@var dialogTitle
+@date ~2016-05-20
+@brief Load dialog title
+@var filterPatterns
+@date ~2016-05-20
+@brief Load dialog pattern
+@var filterDescription
+@date ~2016-05-20
+@brief Load dialog description
+*/
+const char *dialogTitle="Load",*filterPatterns[]={"*.obj"},*filterDescription="Object files (*.obj)";
+
+/**
+@date ~2016-05-20
+@brief 3D vector structure
+*/
 struct Vector3
 {
-    Vector3(float x=0,float y=0,float z=0)
+    /**
+    @date ~2016-05-20
+    @brief Construct a Vector3 instance.
+    @param [in] x x-axis value
+    @param [in] y y-axis value
+    @param [in] z z-axis value
+    @return Constructed Vector3 instance
+    */
+    Vector3(GLfloat x=0,GLfloat y=0,GLfloat z=0)
     {
         this->x=x;
         this->y=y;
         this->z=z;
     }
-    static int test() {
-        return 1;
-    }
-    Vector3 operator*(float k) {
-        Vector3 r;
-        r.x = x * k;
-        r.y = y * k;
-        r.z = z * k;
-        return r;
-    }
-    
+
+    /**
+    @date ~2016-05-20
+    @brief Get opposite signed instance of this.
+    @par Parameters
+        None
+    @return Opposite signed Vector3 instance
+    */
     Vector3 operator-()
     {
         Vector3 r;
@@ -63,14 +127,13 @@ struct Vector3
         r.z=-z;
         return r;
     }
-    Vector3 operator-(Vector3 v)
-    {
-        Vector3 r;
-        r.x=x-v.x;
-        r.y=y-v.y;
-        r.z=z-v.z;
-        return r;
-    }
+
+    /**
+    @date ~2016-05-20
+    @brief Add a parameter instance to this.
+    @param [in] v Operand
+    @return Added Vector3 instance
+    */
     Vector3 operator+(Vector3 v)
     {
         Vector3 r;
@@ -79,6 +142,43 @@ struct Vector3
         r.z=z+v.z;
         return r;
     }
+
+    /**
+    @date ~2016-05-20
+    @brief Subtract a parameter instance from this.
+    @param [in] v Operand
+    @return Subtracted Vector3 instance
+    */
+    Vector3 operator-(Vector3 v)
+    {
+        Vector3 r;
+        r.x=x-v.x;
+        r.y=y-v.y;
+        r.z=z-v.z;
+        return r;
+    }
+
+    /**
+    @date ~2016-05-20
+    @brief Multiply float value to this.
+    @param [in] m Multiplier
+    @return Multiplied Vector3 instance
+    */
+    Vector3 operator*(GLfloat m)
+    {
+        Vector3 r;
+        r.x=x*m;
+        r.y=y*m;
+        r.z=z*m;
+        return r;
+    }
+
+    /**
+    @date ~2016-05-20
+    @brief Divide float value to this.
+    @param [in] d Diviser
+    @return Divided Vector3 instance
+    */
     Vector3 operator/(GLfloat d)
     {
         Vector3 r;
@@ -87,170 +187,279 @@ struct Vector3
         r.z=z/d;
         return r;
     }
+
+    /**
+    @date ~2016-05-20
+    @brief Get norm value.
+    @par Parameters
+        None
+    @return Norm value
+    */
     GLfloat getNorm()
     {
         return sqrt(x*x+y*y+z*z);
     }
-    Vector3 UnitVector()
+
+    /**
+    @date ~2016-05-20
+    @brief Get unit vector.
+    @par Parameters
+        None
+    @return Vector whose length is 1
+    */
+    Vector3 getUnitVector()
     {
-        return (*this) * (1. / getNorm());
+        return (*this)*(1./getNorm());
     }
-    void PrintValue() {
-        printf("[%lf %lf %lf]\n", x, y, z);
-    }
+
+    /**
+    @var Vector3::x
+    @date ~2016-05-20
+    @brief x-axis value
+    @var Vector3::y
+    @date ~2016-05-20
+    @brief y-axis value
+    @var Vector3::z
+    @date ~2016-05-20
+    @brief z-axis value
+    */
     float x,y,z;
 };
 
-struct CAMERA
+/**
+@date ~2016-05-20
+@brief Camera structure
+*/
+struct Camera
 {
-    Vector3 position, normal, yAxis, xAxis;
-    Vector3 baseNormal, baseYAxis, baseXAxis;
-    float azimuth, elevation, twist;
-    CAMERA() {
-        position = Vector3(0,0,0);
-        baseNormal = normal = Vector3(0,0,-1);
-        baseXAxis = xAxis = Vector3(1,0,0);
-        baseYAxis = yAxis = Vector3(0,1,0);
-        azimuth = elevation = twist = 0;
+    /**
+    @date ~2016-05-20
+    @brief Construct a Camera instance.
+    @par Parameters
+        None
+    @return Constructed Camera instance
+    */
+    Camera()
+    {
+        position=Vector3(0,0,0);
+        normal=Vector3(0,0,-1);
+        xAxis=Vector3(1,0,0);
+        yAxis=Vector3(0,1,0);
+        azimuth=0;
+        elevation=0;
+        twist=0;
     }
-}Camera;
 
+    /**
+    @var Camera::position
+    @date ~2016-05-20
+    @brief Position vector
+    @var Camera::normal
+    @date ~2016-05-20
+    @brief Direction vector
+    @var Camera::xAxis
+    @date ~2016-05-20
+    @brief x-axis vector
+    @var Camera::yAxis
+    @date ~2016-05-20
+    @brief y-axis vector
+    */
+    Vector3 position,normal,xAxis,yAxis;
+
+    /**
+    @var Camera::azimuth
+    @date ~2016-05-20
+    @brief Rotated angle in xy-plain
+    @var Camera::elevation
+    @date ~2016-05-20
+    @brief Rotated angle above xy-plain
+    @var Camera::twist
+    @date ~2016-05-20
+    @brief Rotated angle around viewing direction
+    */
+    GLfloat azimuth,elevation,twist;
+};
+
+/**
+@date ~2016-05-20
+@brief 3D object face structure
+*/
 struct Face
 {
+    /**
+    @date ~2016-05-20
+    @brief Array for vertex numbers
+    */
     vector<int> vertexNo;
+
+    /**
+    @date ~2016-05-20
+    @brief Array for vertex normals
+    */
     vector<Vector3> normal;
 };
 
-vector<Vector3> aVertex,aNormal;
-vector<Face> aFace;
-vector<Vector3> aTranslation;
-
-struct Index{
-    int start;
-    int end;
-};
-vector<Index> aIndex;
-
-inline void glVertex3fv(Vector3 &v)
+/**
+@date 2016-05-23
+@brief 3D object structure
+*/
+struct Object
 {
-    glVertex3f(v.x,v.y,v.z);
-}
+    /**
+    @var vertex
+    @date 2016-05-23
+    @brief Array for vertex
+    @var normal
+    @date 2016-05-23
+    @brief Array for normal
+    */
+    vector<Vector3> vertex,normal;
 
+    /**
+    @date 2016-05-23
+    @brief Array for face
+    */
+    vector<Face> face;
+
+    /**
+    @date 2016-05-23
+    @brief Translation value
+    */
+    Vector3 translation;
+};
+
+/**
+@date ~2016-05-20
+@brief Convert raw button value to pre-defined macro.
+@param [in] button Raw button value
+@return Converted button value
+*/
 inline int glConvertButton(int button)
 {
     switch(button)
     {
     case GLUT_LEFT_BUTTON:
-        return KIST_LEFT_BUTTON;
+        return KIST_MOUSE_LEFT;
     case GLUT_RIGHT_BUTTON:
-        return KIST_RIGHT_BUTTON;
+        return KIST_MOUSE_RIGHT;
     default:
         return button;
     }
 }
 
-void drawBitmapText(char *string,float x,float y,float z)
+/**
+@date ~2016-05-20
+@brief Call glVertex3f() for given vector.
+@param [in] v Target vector
+@return None
+*/
+inline void glVertex3fv(Vector3 v)
 {
-    char *c;
-    glRasterPos3f(x, y, z);
-    
-    for (c=string; *c != 0; c++)
-    {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
-        /*
-         GLUT_BITMAP_TIMES_ROMAN_10
-         GLUT_BITMAP_TIMES_ROMAN_24
-         GLUT_BITMAP_HELVETICA_10
-         GLUT_BITMAP_HELVETICA_12
-         GLUT_BITMAP_HELVETICA_18
-        */
-    }
-}
-void gluLookAt(Vector3 eye, Vector3 center, Vector3 up)
-{
-    gluLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    glVertex3f(v.x,v.y,v.z);
 }
 
-float InnerProduct(Vector3 A, Vector3 B)
+/**
+@date 2016-05-23
+@brief Call glNormal3f() for given vector.
+@param [in] v Target vector
+@return None
+*/
+inline void glNormal3fv(Vector3 v)
 {
-    return A.x * B.x + A.y * B.y + A.z * B.z;
+    glNormal3f(v.x,v.y,v.z);
 }
-Vector3 CrossProduct(Vector3 A, Vector3 B)
+
+/**
+@date ~2016-05-20
+@brief Print text to given coordinate
+@param [in] x x-axis value
+@param [in] y y-axis value
+@param [in] z z-axis value
+@param [in] string String to print
+@return None
+*/
+void glText(GLfloat x,GLfloat y,GLfloat z,const char *string)
+{
+    const char *ptr;
+    glRasterPos3f(x,y,z);
+    for(ptr=string;*ptr!=0;ptr++)glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,*ptr);
+}
+
+/**
+@date ~2016-05-20
+@brief Call gluLookAt() for given vectors.
+@param [in] eye First vector
+@param [in] center Second vector
+@param [in] up Third vector
+@return None
+*/
+inline void gluLookAt(Vector3 eye,Vector3 center,Vector3 up)
+{
+    gluLookAt(eye.x,eye.y,eye.z,center.x,center.y,center.z,up.x,up.y,up.z);
+}
+
+/**
+@date ~2016-05-20
+@brief Get a dot product value within to vectors.
+@param [in] a First vector
+@param [in] b Second vector
+@return Dot product value
+*/
+GLfloat dotProduct(Vector3 a,Vector3 b)
+{
+    return a.x*b.x+a.y*b.y+a.z*b.z;
+}
+
+/**
+@date ~2016-05-20
+@brief Get a cross product value within two vectors.
+@param [in] a First vector
+@param [in] b Second vector
+@return Cross product value
+*/
+Vector3 crossProduct(Vector3 a,Vector3 b)
 {
     Vector3 r;
-    r.x = A.y * B.z - A.z * B.y;
-    r.y = A.z * B.x - A.x * B.z;
-    r.z = A.x * B.y - A.y * B.x;
+    r.x=a.y*b.z-a.z*b.y;
+    r.y=a.z*b.x-a.x*b.z;
+    r.z=a.x*b.y-a.y*b.x;
     return r;
 }
-Vector3 rotateVector(Vector3 target, Vector3 axis, float theta)
+
+/**
+@date ~2016-05-20
+@brief Rotate a vector from target around axis about given angle.
+@param [in] target Target vector
+@param [in] axis Axis vector
+@param [in] angle Rotating angle
+@return Rotated vector
+*/
+Vector3 rotateVector(Vector3 target,Vector3 axis,float angle)
 {
-    Vector3 parallel = axis * (InnerProduct(target, axis) / InnerProduct(axis, axis));
-    Vector3 vertical = target - parallel;
-    Vector3 cross = CrossProduct(axis, vertical);
-    
-    Vector3 result = (vertical.UnitVector() * cos(theta) + cross.UnitVector() * sin(theta)) * vertical.getNorm() + parallel;
+    Vector3 parallel=axis*(dotProduct(target,axis)/dotProduct(axis,axis));
+    Vector3 vertical=target-parallel;
+    Vector3 cross=crossProduct(axis,vertical);
+    Vector3 result=(vertical.getUnitVector()*cos(angle)+cross.getUnitVector()*sin(angle))*vertical.getNorm()+parallel;
     return result;
 }
 
-int Direction(Vector3 Point1, Vector3 Point2, Vector3 Point3, Vector3 CameraPos) {
-    //Camera에서 볼 때 Point1 - Point2 - Point3 의 CCW 판별(CCW -> 1, CW -> -1, line -> 0)
-    Vector3 Segment1 = Point2 - Point1;
-    Vector3 Segment2 = Point3 - Point1;
-    Vector3 Normal = CrossProduct(Segment1, Segment2);
-    float result = InnerProduct(Normal, CameraPos - Point1);
-    
-    if(result < 0) return -1;
-    if(result > 0) return +1;
+/**
+@date ~2016-05-20
+@brief Determine whether the route from a through b to c is clockwise, counter-clockwise, or a line.
+@param [in] a First vector
+@param [in] b Second vector
+@param [in] c Third vector
+@param [in] camera Camera's vector
+@retval 1 CCW (Counter-clockwise)
+@retval -1 CW (Clockwise)
+@retval 0 Line
+*/
+int getDirection(Vector3 a,Vector3 b,Vector3 c,Vector3 camera)
+{
+    GLfloat result=dotProduct(crossProduct(b-a,c-a),camera-a);
+    if(result<0)return -1;
+    if(result>0)return 1;
     return 0;
 }
 
-int SelectModel(Vector3 direction, Vector3 position)
-{
-    for(vector<Index>::iterator index = aIndex.begin(); index != aIndex.end(); ++index)
-    {
-        int count = (int)(index - aIndex.begin());
-        vector<Face>::iterator startIndex = aFace.begin() + index->start;
-        vector<Face>::iterator   endIndex = aFace.begin() + index->end + 1;
-        
-        for(vector<Face>::iterator it=startIndex; it!=endIndex; ++it)
-        {
-            if(it->vertexNo.size()<3)continue;
-            Vector3 point[3];
-            point[0] = aVertex[it->vertexNo[0]] + aTranslation[count];
-            point[1] = aVertex[it->vertexNo[1]] + aTranslation[count];
-            point[2] = aVertex[it->vertexNo[2]] + aTranslation[count];
-            Vector3 normal = CrossProduct(point[1]-point[0], point[2]-point[0]);
-            float t = InnerProduct(normal, point[0] - position)/InnerProduct(normal, direction);
-            Vector3 intersect = position + direction * t;
-            
-            for(unsigned int i=1;i<it->vertexNo.size()-1;++i)
-            {
-                point[1] = aVertex[it->vertexNo[i]]   + aTranslation[count];
-                point[2] = aVertex[it->vertexNo[i+1]] + aTranslation[count];
-                int cnt = 0;
-                for(int k=0; k<3; k++) {
-                    int nowDir = Direction(point[k], point[(k+1)%3], intersect, position);
-                    cnt += nowDir;
-                }
-                if(cnt == -3 || cnt == 3) {
-                    return (int)(index - aIndex.begin());
-                }
-            }
-        }
-    }
-
-    
-    return -1;
-}
-
 #endif // __MAIN_H__
-
-
-
-
-
-
-
-
-

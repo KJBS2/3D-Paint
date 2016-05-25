@@ -1,0 +1,6 @@
+<map id="rotateVector" name="rotateVector">
+<area shape="rect" id="node2" href="$main_8h.html#a41856fddce2fd08db39f2edd828b9aca" title="Get a dot product value within to vectors. " alt="" coords="181,5,267,32"/>
+<area shape="rect" id="node3" href="$main_8h.html#a6bb33ec123af13a87b25cfe908186538" title="Get a cross product value within two vectors. " alt="" coords="175,56,273,83"/>
+<area shape="rect" id="node4" href="$struct_vector3.html#ae85eca06438274e143363262c9b08904" title="Get unit vector. " alt="" coords="147,107,301,133"/>
+<area shape="rect" id="node5" href="$struct_vector3.html#a1641eed331f1ade1bce9907b108be8a9" title="Get norm value. " alt="" coords="162,157,286,184"/>
+</map>

@@ -1,5 +1,7 @@
 *.layout
 *.depend
 .DS_Store
-cadillac_eldorado_astorza.obj
-Nefertiti.obj
+**/bin/
+!**/freeglut/bin/
+**/obj/
+!/obj/

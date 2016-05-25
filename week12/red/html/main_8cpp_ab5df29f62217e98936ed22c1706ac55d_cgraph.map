@@ -1,0 +1,7 @@
+<map id="DoMouse" name="DoMouse">
+<area shape="rect" id="node2" href="$main_8h.html#acced050559d5b91e455c5fabf1b7bb62" title="Convert raw button value to pre&#45;defined macro. " alt="" coords="131,5,244,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a5fa00d0f7414d03eb87dc8fedea60856" title="Select an object. " alt="" coords="139,56,236,83"/>
+<area shape="rect" id="node4" href="$main_8h.html#a6bb33ec123af13a87b25cfe908186538" title="Get a cross product value within two vectors. " alt="" coords="431,31,529,57"/>
+<area shape="rect" id="node5" href="$main_8h.html#a41856fddce2fd08db39f2edd828b9aca" title="Get a dot product value within to vectors. " alt="" coords="437,93,523,120"/>
+<area shape="rect" id="node6" href="$main_8h.html#ace9e9eca2ea828bd05ca95967e7bb199" title="Determine whether the route from a through b to c is clockwise, counter&#45;clockwise, or a line. " alt="" coords="292,56,383,83"/>
+</map>
