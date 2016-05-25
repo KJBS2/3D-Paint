@@ -20,6 +20,8 @@ public:
 public slots:
     void load();
 
+private slots:
+
 private:
     Ui::MainWindow *ui;
     QMdiArea area;

@@ -117,18 +117,23 @@ class ObjWindow:public QGLWidget
     Q_OBJECT
 public:
     explicit ObjWindow(QString file,QWidget *parent = 0);
+    void inputKey(QKeyEvent* key);
+    void releaseKey(QKeyEvent* key);
 
-protected:
+private slots:
+    void idleFunc();
+
+private:
+    QTimer *timer;
     void parse();
     //
 
-     void paintGL();
-     void resizeGL(int width,int height);
-     void initializeGL();
-     void doDisplayMatrix();
-     void doDisplayLightOn();
-     void doDisplaySample();
-
+    void paintGL();
+    void resizeGL(int width,int height);
+    void initializeGL();
+    void doDisplayMatrix();
+    void doDisplayLightOn();
+    void doDisplaySample();
     //file directory
     QString file;
 
@@ -141,6 +146,8 @@ protected:
     GLfloat projectionMatrix[16];
     CAMERA Camera;
     // ex) aVector aFace Camera.. etc
+
+    bool isKey[200];
 };
 
 #endif // OBJWINDOW_H

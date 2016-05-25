@@ -15,6 +15,9 @@ public:
     ObjViewer();
     void add(QString);
 private:
+
+    void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *key);
     ObjWindow* aWindow[MAXI];
     QTabWidget tab;
     int nWindow;

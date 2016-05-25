@@ -15,10 +15,18 @@ ObjViewer::ObjViewer()
 
 void ObjViewer::add(QString fileName)
 {
-
     aWindow[nWindow]=new ObjWindow(fileName);
     int idx=0;
     for(int i=0;i<fileName.length();++i) if(fileName.at(i)=='/') idx=i;
     tab.addTab(aWindow[nWindow],fileName.mid(idx+1,fileName.length()-idx));
+    tab.setCurrentWidget(aWindow[nWindow]);
     ++nWindow;
+}
+void ObjViewer::keyPressEvent(QKeyEvent *key)
+{
+    ((ObjWindow*)tab.currentWidget())->inputKey(key);
+}
+void ObjViewer::keyReleaseEvent(QKeyEvent *key)
+{
+    ((ObjWindow*)tab.currentWidget())->releaseKey(key);
 }
