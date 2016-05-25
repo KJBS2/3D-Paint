@@ -106,7 +106,8 @@ void DoLoad()
     fclose(fp);
 }
 
-void DoIdle() {
+void DoIdle()
+{
     if(isPress['a'] || isPress['A'])
         Camera.position = Camera.position - Camera.xAxis *(float)0.05*3;
     if(isPress['d'] || isPress['D'])
@@ -269,7 +270,6 @@ void DoDisplayString()
     glColor3f(1,1,1);
     drawBitmapText((char *)"z, gird(l)ine, (m)ode", -1, -0.98, Camera.position.y-1);
 }
-
 void DoDisplay()
 {
     DoDisplayInit();
@@ -335,7 +335,6 @@ void DoMouse(int button,int state,int x,int y)
     }
     glutPostRedisplay();
 }
-
 void DoMouseMove(int x,int y)
 {
     switch(buttonState)
@@ -405,7 +404,8 @@ void DoMousePassiveMove(int x, int y)
     glutPostRedisplay();
 }
 
-void DoKeyboardUp(unsigned char key, int x, int y) {
+void DoKeyboardUp(unsigned char key, int x, int y)
+{
     isPress[(int)key] = false;
 }
 

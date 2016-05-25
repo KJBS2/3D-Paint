@@ -101,7 +101,8 @@ struct Vector3
     float x,y,z;
 };
 
-struct CAMERA{
+struct CAMERA
+{
     Vector3 position, normal, yAxis, xAxis;
     Vector3 baseNormal, baseYAxis, baseXAxis;
     float azimuth, elevation, twist;
